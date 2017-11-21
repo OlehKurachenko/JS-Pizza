@@ -1,10 +1,46 @@
 .pizza-card {
   img {
-    max-width: 250px;
+    width: 100%;
+    max-width: 300px;
   }
 
   h3 {
-    color: @mainColor;
-    background-color: lighten(@mainColor, 45%);
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 26px;
+    color: @h3Color;
+  }
+
+  .pc-description {
+    height: 50px;
+  }
+
+  .pc-type {
+    font-size: 12px;
+    color: gray;
+  }
+
+  .pc-button-row {
+    text-align: center;
+  }
+
+  .pc-diameter {
+    //display: inline-block;
+  }
+
+  .pc-weight {
+    //display: inline-block;
+  }
+
+  .pc-price {
+    color: black;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    font-weight: 600;
+  }
+
+  .pc-price-uah {
+    margin-bottom: 8px;
   }
 }
+

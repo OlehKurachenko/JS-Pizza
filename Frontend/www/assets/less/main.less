@@ -1,3 +1,81 @@
-@mainColor: blue;
+@mainColor: orange;
+@h3Color: #ff7a00;
+@cartSize: 300px;
+
+#cart {
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: @cartSize;
+
+  z-index: 20;
+}
+
+#range {
+  padding-right: @cartSize + 20px;
+}
+
+#range-navbar {
+  padding-right: @cartSize;
+  z-index: 10;
+}
+
+#range-nav {
+  display: inline-block;
+}
+
+.range-nav-center {
+  text-align: center;
+}
+
+.range-head {
+  text-align: center;
+}
+
+#head-label {
+  display: inline-block;
+}
+
+#head-counter {
+  display: inline-block;
+  border-radius: 15px;
+  background-color: @h3Color;
+  font-weight: bold;
+  color: white;
+  padding: 4px 10px;
+  border-bottom: 10px;
+  vertical-align: middle;
+}
+
+#head-label:after {
+  display: inline-block;
+  content: " ";
+  width: 10px;
+}
+
+.nav-pills a {
+  color: #ff7a00!important;
+}
+
+.nav-pills .active a{
+  background-color: @h3Color!important;
+  color: white!important;
+}
+
+#main {
+  min-width: 610px;
+}
+
+#navbar-main {
+  padding-left: 50px;
+}
+
+// TODO remove all next code - it is test
+
+.fillit {
+  height: 400px;
+  background-color: green;
+}
 
 @import "pizza/pizza-card";
