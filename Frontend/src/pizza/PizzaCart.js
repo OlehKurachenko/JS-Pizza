@@ -4,34 +4,34 @@
 var Templates = require('../Templates');
 var Pizza_Size = require('./Pizza_Size');
 
-//Змінна в якій зберігаються перелік піц в кошику
 var Cart = [];
 
-//HTML едемент куди будуть додаватися піци
 var $cart = $("#ct-container");
 
 function addToCart(pizza, size) {
-    //Додавання однієї піци в кошик покупок
 
-    //Приклад реалізації, можна робити будь-яким іншим способом
-    Cart.push({
-        pizza: pizza,
-        size: size,
-        quantity: 1,
-        ua_size: Pizza_Size.ua_name[size]
+    var pizzaInCart = Cart.find(function (cart_item) {
+        return (cart_item.pizza === pizza && cart_item.size === size);
     });
 
-    console.log(Pizza_Size.ua_name[size]);
+    if (pizzaInCart) {
+        pizzaInCart.quantity++;
+    } else {
+        Cart.push({
+            pizza: pizza,
+            size: size,
+            quantity: 1,
+            ua_size: Pizza_Size.ua_name[size]
+        });
+    }
 
-    //Оновити вміст кошика на сторінці
     updateCart();
 }
 
 function removeFromCart(cart_item) {
-    //Видалити піцу з кошика
-    //TODO: треба зробити
 
-    //Після видалення оновити відображення
+    Cart.splice(Cart.indexOf(cart_item), 1);
+
     updateCart();
 }
 
@@ -44,13 +44,17 @@ function initialiseCart() {
 }
 
 function getPizzaInCart() {
-    //Повертає піци які зберігаються в кошику
     return Cart;
 }
 
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
-    // TODO ass saving to local storage
+    // TODO add saving to local storage
+    // TODO add "remove all"
+    // TODO remove all the "href"s
+
+    // TODO correct +
+    // TODO write "minus"
 
     //Очищаємо старі піци в кошику
     $cart.html("");
@@ -67,6 +71,11 @@ function updateCart() {
             cart_item.quantity += 1;
 
             //Оновлюємо відображення
+            updateCart();
+        });
+
+        $node.find('#rem-button').click(function () {
+            removeFromCart(cart_item);
             updateCart();
         });
 
