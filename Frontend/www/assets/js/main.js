@@ -179,15 +179,17 @@ module.exports = pizza_info;
 },{}],2:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
+ * Refactored according to task by soll_nevermind on 29.11.17
  */
 
 var ejs = require('ejs');
 
+exports.PizzaMenu_OneItem =
+    ejs.compile("<%\n\nfunction getIngredientsArray(pizza) {\n    //Отримує вміст піци\n    var content = pizza.content;\n    var result = [];\n\n    //Object.keys повертає масив ключів в об’єкті JavaScript\n\n    Object.keys(content).forEach(function(key){\n\n        //a.concat(b) створює спільний масив із масивів a та b\n        result = result.concat(content[key]);\n    });\n\n    return result;\n}\n\n   %>\n<div class=\"col-md-6 col-lg-4 pizza-card\">\n    <% if(pizza.is_new) { %>\n    <div class=\"label label-danger state-label\">Нова</div>\n    <% } else if(pizza.is_popular) {%>\n    <div class=\"label label-success state-label\">Популярна</div>\n    <% } %>\n    <div class=\"thumbnail\">\n        <img src=\"<%= pizza.icon %>\">\n        <div class=\"caption\">\n            <h3><%= pizza.title %></h3>\n            <span class=\"pc-type\"><%= pizza.type %></span>\n            <p class=\"pc-description\">\n                <%= getIngredientsArray(pizza).join(\", \") %>\n            </p>\n        </div>\n        <div class=\"row pc-button-row\">\n            <% if (pizza.small_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.small_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.small_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.small_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-small\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n            <% if (pizza.big_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.big_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.big_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.big_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-big\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n        </div>\n    </div>\n</div>");
 
-exports.PizzaMenu_OneItem = ejs.compile("<%\n\nfunction getIngredientsArray(pizza) {\n    //Отримує вміст піци\n    var content = pizza.content;\n    var result = [];\n\n    //Object.keys повертає масив ключів в об’єкті JavaScript\n\n    Object.keys(content).forEach(function(key){\n\n        //a.concat(b) створює спільний масив із масивів a та b\n        result = result.concat(content[key]);\n    });\n\n    return result;\n}\n\n   %>\n<div class=\"col-md-6 col-lg-4 pizza-card\">\n    <% if(pizza.is_new) { %>\n    <div class=\"label label-danger state-label\">Нова</div>\n    <% } else if(pizza.is_popular) {%>\n    <div class=\"label label-success state-label\">Популярна</div>\n    <% } %>\n    <div class=\"thumbnail\">\n        <img src=\"<%= pizza.icon %>\">\n        <div class=\"caption\">\n            <h3><%= pizza.title %></h3>\n            <span class=\"pc-type\"><%= pizza.type %></span>\n            <p class=\"pc-description\">\n                <%= getIngredientsArray(pizza).join(\", \") %>\n            </p>\n        </div>\n        <div class=\"row pc-button-row\">\n            <div class=\"<% if (pizza.big_size) { %> col-xs-6 <% } else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\">30</div>\n                <div class=\"pc-weight weight-icon\">430</div>\n                <h3 class=\"pc-price\">115</h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a href=\"#\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% if (pizza.big_size) { %>\n            <div class=\"col-xs-6\">\n                <div class=\"pc-diameter diameter-icon\">40</div>\n                <div class=\"pc-weight weight-icon\">780</div>\n                <h3 class=\"pc-price\">179</h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a href=\"#\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n        </div>\n    </div>\n</div>");
-
-exports.PizzaCart_OneItem = ejs.compile("<div>\n    <%= pizza.title %> (<%= size %>)\n    <div>Ціна: <%= pizza[size].price %> грн.</div>\n    <div>\n        <button class=\"btn btn-danger minus\">-</button>\n        <span class=\"label label-default\"><%= quantity %></span>\n        <button class=\"btn btn-success plus\">+</button>\n    </div>\n</div>");
-},{"ejs":7}],3:[function(require,module,exports){
+exports.PizzaCart_OneItem =
+    ejs.compile("<!--<div>\n    <%= pizza.title %> (<%= size %>)\n    <div>Ціна: <%= pizza[size].price %> грн.</div>\n    <div>\n        <button class=\"btn btn-danger minus\">-</button>\n        <span class=\"label label-default\"><%= quantity %></span>\n        <button class=\"btn btn-success plus\">+</button>\n    </div>\n</div>-->\n\n<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= pizza.title %> (<%= ua_size %>)<img src=\"<%= pizza.icon %>\" class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= pizza[size].size %></div>\n        <div class=\"weight-icon\"><%= pizza[size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= pizza[size].price %>грн</span>\n        <a id=\"inc-button\" class=\"btn btn-danger glyphicon glyphicon-minus\"></a>\n        <span class=\"ct-amount\"><%= quantity %></span>\n        <a id=\"dec-button\" class=\"btn btn-success glyphicon glyphicon-plus\"></a>\n        <a id=\"rem-button\" class=\"btn button-remove glyphicon glyphicon-remove\"></a>\n    </div>\n</div>");
+},{"ejs":8}],3:[function(require,module,exports){
 /**
  * Created by chaika on 25.01.16.
  */
@@ -208,18 +210,13 @@ $(function(){
  * Created by chaika on 02.02.16.
  */
 var Templates = require('../Templates');
-
-//Перелік розмірів піци
-var PizzaSize = {
-    Big: "big_size",
-    Small: "small_size"
-};
+var Pizza_Size = require('./Pizza_Size');
 
 //Змінна в якій зберігаються перелік піц в кошику
 var Cart = [];
 
 //HTML едемент куди будуть додаватися піци
-var $cart = $("#cart");
+var $cart = $("#ct-container");
 
 function addToCart(pizza, size) {
     //Додавання однієї піци в кошик покупок
@@ -228,8 +225,11 @@ function addToCart(pizza, size) {
     Cart.push({
         pizza: pizza,
         size: size,
-        quantity: 1
+        quantity: 1,
+        ua_size: Pizza_Size.ua_name[size]
     });
+
+    console.log(Pizza_Size.ua_name[size]);
 
     //Оновити вміст кошика на сторінці
     updateCart();
@@ -258,13 +258,14 @@ function getPizzaInCart() {
 
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
-    //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
+    // TODO ass saving to local storage
 
     //Очищаємо старі піци в кошику
     $cart.html("");
 
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
+
         var html_code = Templates.PizzaCart_OneItem(cart_item);
 
         var $node = $(html_code);
@@ -289,34 +290,31 @@ exports.addToCart = addToCart;
 
 exports.getPizzaInCart = getPizzaInCart;
 exports.initialiseCart = initialiseCart;
-
-exports.PizzaSize = PizzaSize;
-},{"../Templates":2}],5:[function(require,module,exports){
+},{"../Templates":2,"./Pizza_Size":6}],5:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
+ * Refactored according to task by soll_nevermind on 29.11.17
  */
 var Templates = require('../Templates');
 var PizzaCart = require('./PizzaCart');
 var Pizza_List = require('../Pizza_List');
+var Pizza_Size = require('./Pizza_Size');
 
-//HTML едемент куди будуть додаватися піци
 var $pizza_list = $("#pizza_list");
 
 function showPizzaList(list) {
-    //Очищаємо старі піци в кошику
     $pizza_list.html("");
 
-    //Онволення однієї піци
     function showOnePizza(pizza) {
         var html_code = Templates.PizzaMenu_OneItem({pizza: pizza});
 
         var $node = $(html_code);
 
-        $node.find(".buy-big").click(function(){
-            PizzaCart.addToCart(pizza, PizzaCart.PizzaSize.Big);
+        $node.find("#buy-big").click(function(){
+            PizzaCart.addToCart(pizza, Pizza_Size.Big);
         });
-        $node.find(".buy-small").click(function(){
-            PizzaCart.addToCart(pizza, PizzaCart.PizzaSize.Small);
+        $node.find("#buy-small").click(function(){
+            PizzaCart.addToCart(pizza, Pizza_Size.Small);
         });
 
         $pizza_list.append($node);
@@ -336,20 +334,29 @@ function filterPizza(filter) {
         //TODO: зробити фільтри
     });
 
-    //Показати відфільтровані піци
     showPizzaList(pizza_shown);
 }
 
 function initialiseMenu() {
-    //Показуємо усі піци
     showPizzaList(Pizza_List)
 }
 
 exports.filterPizza = filterPizza;
 exports.initialiseMenu = initialiseMenu;
-},{"../Pizza_List":1,"../Templates":2,"./PizzaCart":4}],6:[function(require,module,exports){
+},{"../Pizza_List":1,"../Templates":2,"./PizzaCart":4,"./Pizza_Size":6}],6:[function(require,module,exports){
+var PizzaSize = {
+    Big: "big_size",
+    Small: "small_size",
+    ua_name: {
+        "big_size": "Велика",
+        "small_size": "Мала"
+    }
+};
 
+module.exports = PizzaSize;
 },{}],7:[function(require,module,exports){
+
+},{}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1217,7 +1224,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
+},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1383,7 +1390,7 @@ exports.cache = {
   }
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -1490,7 +1497,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1718,7 +1725,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":11}],11:[function(require,module,exports){
+},{"_process":12}],12:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 

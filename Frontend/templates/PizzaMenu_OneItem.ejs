@@ -33,20 +33,24 @@ function getIngredientsArray(pizza) {
             </p>
         </div>
         <div class="row pc-button-row">
-            <div class="<% if (pizza.big_size) { %> col-xs-6 <% } else { %> col-xs-12 <% } %>">
-                <div class="pc-diameter diameter-icon">30</div>
-                <div class="pc-weight weight-icon">430</div>
-                <h3 class="pc-price">115</h3>
+            <% if (pizza.small_size) { %>
+            <div class="<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }
+            else { %> col-xs-12 <% } %>">
+                <div class="pc-diameter diameter-icon"><%= pizza.small_size.size %></div>
+                <div class="pc-weight weight-icon"><%= pizza.small_size.weight %></div>
+                <h3 class="pc-price"><%= pizza.small_size.price %></h3>
                 <p class="pc-price-uah">грн.</p>
-                <a href="#" class="btn btn-warning">Купити</a>
+                <a id="buy-small" class="btn btn-warning">Купити</a>
             </div>
+            <% } %>
             <% if (pizza.big_size) { %>
-            <div class="col-xs-6">
-                <div class="pc-diameter diameter-icon">40</div>
-                <div class="pc-weight weight-icon">780</div>
-                <h3 class="pc-price">179</h3>
+            <div class="<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }
+            else { %> col-xs-12 <% } %>">
+                <div class="pc-diameter diameter-icon"><%= pizza.big_size.size %></div>
+                <div class="pc-weight weight-icon"><%= pizza.big_size.weight %></div>
+                <h3 class="pc-price"><%= pizza.big_size.price %></h3>
                 <p class="pc-price-uah">грн.</p>
-                <a href="#" class="btn btn-warning">Купити</a>
+                <a id="buy-big" class="btn btn-warning">Купити</a>
             </div>
             <% } %>
         </div>

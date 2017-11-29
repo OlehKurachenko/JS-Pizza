@@ -1,28 +1,27 @@
 /**
  * Created by chaika on 02.02.16.
+ * Refactored according to task by soll_nevermind on 29.11.17
  */
 var Templates = require('../Templates');
 var PizzaCart = require('./PizzaCart');
 var Pizza_List = require('../Pizza_List');
+var Pizza_Size = require('./Pizza_Size');
 
-//HTML едемент куди будуть додаватися піци
 var $pizza_list = $("#pizza_list");
 
 function showPizzaList(list) {
-    //Очищаємо старі піци в кошику
     $pizza_list.html("");
 
-    //Онволення однієї піци
     function showOnePizza(pizza) {
         var html_code = Templates.PizzaMenu_OneItem({pizza: pizza});
 
         var $node = $(html_code);
 
-        $node.find(".buy-big").click(function(){
-            PizzaCart.addToCart(pizza, PizzaCart.PizzaSize.Big);
+        $node.find("#buy-big").click(function(){
+            PizzaCart.addToCart(pizza, Pizza_Size.Big);
         });
-        $node.find(".buy-small").click(function(){
-            PizzaCart.addToCart(pizza, PizzaCart.PizzaSize.Small);
+        $node.find("#buy-small").click(function(){
+            PizzaCart.addToCart(pizza, Pizza_Size.Small);
         });
 
         $pizza_list.append($node);
@@ -42,12 +41,10 @@ function filterPizza(filter) {
         //TODO: зробити фільтри
     });
 
-    //Показати відфільтровані піци
     showPizzaList(pizza_shown);
 }
 
 function initialiseMenu() {
-    //Показуємо усі піци
     showPizzaList(Pizza_List)
 }
 

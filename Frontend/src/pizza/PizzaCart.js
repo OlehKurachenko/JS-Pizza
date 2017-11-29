@@ -2,18 +2,13 @@
  * Created by chaika on 02.02.16.
  */
 var Templates = require('../Templates');
-
-//Перелік розмірів піци
-var PizzaSize = {
-    Big: "big_size",
-    Small: "small_size"
-};
+var Pizza_Size = require('./Pizza_Size');
 
 //Змінна в якій зберігаються перелік піц в кошику
 var Cart = [];
 
 //HTML едемент куди будуть додаватися піци
-var $cart = $("#cart");
+var $cart = $("#ct-container");
 
 function addToCart(pizza, size) {
     //Додавання однієї піци в кошик покупок
@@ -22,8 +17,11 @@ function addToCart(pizza, size) {
     Cart.push({
         pizza: pizza,
         size: size,
-        quantity: 1
+        quantity: 1,
+        ua_size: Pizza_Size.ua_name[size]
     });
+
+    console.log(Pizza_Size.ua_name[size]);
 
     //Оновити вміст кошика на сторінці
     updateCart();
@@ -52,13 +50,14 @@ function getPizzaInCart() {
 
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
-    //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
+    // TODO ass saving to local storage
 
     //Очищаємо старі піци в кошику
     $cart.html("");
 
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
+
         var html_code = Templates.PizzaCart_OneItem(cart_item);
 
         var $node = $(html_code);
@@ -83,5 +82,3 @@ exports.addToCart = addToCart;
 
 exports.getPizzaInCart = getPizzaInCart;
 exports.initialiseCart = initialiseCart;
-
-exports.PizzaSize = PizzaSize;
