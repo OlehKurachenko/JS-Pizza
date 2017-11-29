@@ -18,24 +18,37 @@ function getIngredientsArray(pizza) {
 
    %>
 <div class="col-md-6 col-lg-4 pizza-card">
+    <% if(pizza.is_new) { %>
+    <div class="label label-danger state-label">Нова</div>
+    <% } else if(pizza.is_popular) {%>
+    <div class="label label-success state-label">Популярна</div>
+    <% } %>
     <div class="thumbnail">
-        <img class="pizza-icon" src="<%= pizza.icon %>" alt="Pizza">
-
-        <% if(pizza.is_new) { %>
-        <span class="label label-danger">Нова</span>
-        <% } else if(pizza.is_popular) {%>
-        <span class="label label-success">Популярна</span>
-        <% } %>
-
+        <img src="<%= pizza.icon %>">
         <div class="caption">
-            <span class="title"><%= pizza.title %></span>
-            <div class="type"><%= pizza.type %></div>
-            <div class="description">
+            <h3><%= pizza.title %></h3>
+            <span class="pc-type"><%= pizza.type %></span>
+            <p class="pc-description">
                 <%= getIngredientsArray(pizza).join(", ") %>
-            </div>
+            </p>
         </div>
-
-        <!-- Перед тим щоб показати кнопку необхідно переконатися, що піца має великий розмір -->
-        <button class="btn btn-primary buy-big">Купити велику</button>
+        <div class="row pc-button-row">
+            <div class="<% if (pizza.big_size) { %> col-xs-6 <% } else { %> col-xs-12 <% } %>">
+                <div class="pc-diameter diameter-icon">30</div>
+                <div class="pc-weight weight-icon">430</div>
+                <h3 class="pc-price">115</h3>
+                <p class="pc-price-uah">грн.</p>
+                <a href="#" class="btn btn-warning">Купити</a>
+            </div>
+            <% if (pizza.big_size) { %>
+            <div class="col-xs-6">
+                <div class="pc-diameter diameter-icon">40</div>
+                <div class="pc-weight weight-icon">780</div>
+                <h3 class="pc-price">179</h3>
+                <p class="pc-price-uah">грн.</p>
+                <a href="#" class="btn btn-warning">Купити</a>
+            </div>
+            <% } %>
+        </div>
     </div>
 </div>
