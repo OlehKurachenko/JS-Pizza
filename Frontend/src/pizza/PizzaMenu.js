@@ -6,11 +6,15 @@ var Templates = require('../Templates');
 var PizzaCart = require('./PizzaCart');
 var Pizza_List = require('../Pizza_List');
 var Pizza_Size = require('./Pizza_Size');
+var PizzaFilters = require('./PizzaFilters');
 
 var $pizza_list = $("#pizza_list");
+var $range_nav = $('#range-nav');
+var filters = {};
 
-function showPizzaList(list) {
+function showPizzaList(isSuitable) {
     $pizza_list.html("");
+    var pizzas_selected = 0;
 
     function showOnePizza(pizza) {
         var html_code = Templates.PizzaMenu_OneItem({pizza: pizza});
@@ -27,27 +31,31 @@ function showPizzaList(list) {
         $pizza_list.append($node);
     }
 
-    list.forEach(showOnePizza);
-    $('#head-counter').text(list.length);
-}
-
-function filterPizza(filter) {
-    var pizza_shown = [];
-
-    Pizza_List.forEach(function(pizza){
-        //Якщо піка відповідає фільтру
-        //pizza_shown.push(pizza);
-
-        //TODO: зробити фільтри
+    Pizza_List.forEach(function (t) {
+        if (isSuitable(t)) {
+            pizzas_selected++;
+            showOnePizza(t);
+        }
     });
-
-    showPizzaList(pizza_shown);
+    $('#head-counter').text(pizzas_selected);
 }
 
 function initialiseMenu() {
-    // TODO add filter configuration
-    showPizzaList(Pizza_List)
+    for (var key in PizzaFilters) {
+        var filter = PizzaFilters[key];
+        filters[PizzaFilters[key].pizzatype] = PizzaFilters[key];
+        var html_code = Templates.PizzaFiltar_OneItem(filter);
+        var $node = $(html_code);
+        $node.find('.' + filter.pizzatype).click(function () {
+            var pizzatype = $(this).attr('class');
+            $range_nav.find('.active').removeClass('active');
+            $range_nav.find('#' + pizzatype).addClass('active');
+            showPizzaList(filters[pizzatype].isSuitable);
+        });
+        $range_nav.append($node);
+    }
+    $range_nav.find('#' + PizzaFilters.All.pizzatype).addClass('active');
+    showPizzaList(PizzaFilters.All.isSuitable);
 }
 
-exports.filterPizza = filterPizza;
 exports.initialiseMenu = initialiseMenu;

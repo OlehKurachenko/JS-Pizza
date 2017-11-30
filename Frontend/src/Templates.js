@@ -10,3 +10,6 @@ exports.PizzaMenu_OneItem =
 
 exports.PizzaCart_OneItem =
     ejs.compile(fs.readFileSync('./Frontend/templates/PizzaCart_OneItem.ejs', "utf8"));
+
+exports.PizzaFiltar_OneItem =
+    ejs.compile(fs.readFileSync('./Frontend/templates/PizzaFilter_OneItem.ejs', 'utf8'));

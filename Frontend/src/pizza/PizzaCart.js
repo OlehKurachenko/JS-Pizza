@@ -56,8 +56,6 @@ function clearCart() {
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
     // TODO add saving to local storage
-    // TODO add "remove all"
-    // TODO remove all the "href"s
 
     $cart.html("");
 
