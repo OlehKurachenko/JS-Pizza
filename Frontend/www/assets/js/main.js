@@ -188,7 +188,7 @@ exports.PizzaMenu_OneItem =
     ejs.compile("<%\n\nfunction getIngredientsArray(pizza) {\n    //Отримує вміст піци\n    var content = pizza.content;\n    var result = [];\n\n    //Object.keys повертає масив ключів в об’єкті JavaScript\n\n    Object.keys(content).forEach(function(key){\n\n        //a.concat(b) створює спільний масив із масивів a та b\n        result = result.concat(content[key]);\n    });\n\n    return result;\n}\n\n   %>\n<div class=\"col-md-6 col-lg-4 pizza-card\">\n    <% if(pizza.is_new) { %>\n    <div class=\"label label-danger state-label\">Нова</div>\n    <% } else if(pizza.is_popular) {%>\n    <div class=\"label label-success state-label\">Популярна</div>\n    <% } %>\n    <div class=\"thumbnail\">\n        <img src=\"<%= pizza.icon %>\">\n        <div class=\"caption\">\n            <h3><%= pizza.title %></h3>\n            <span class=\"pc-type\"><%= pizza.type %></span>\n            <p class=\"pc-description\">\n                <%= getIngredientsArray(pizza).join(\", \") %>\n            </p>\n        </div>\n        <div class=\"row pc-button-row\">\n            <% if (pizza.small_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.small_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.small_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.small_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-small\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n            <% if (pizza.big_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.big_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.big_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.big_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-big\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n        </div>\n    </div>\n</div>");
 
 exports.PizzaCart_OneItem =
-    ejs.compile("<!--<div>\n    <%= pizza.title %> (<%= size %>)\n    <div>Ціна: <%= pizza[size].price %> грн.</div>\n    <div>\n        <button class=\"btn btn-danger minus\">-</button>\n        <span class=\"label label-default\"><%= quantity %></span>\n        <button class=\"btn btn-success plus\">+</button>\n    </div>\n</div>-->\n\n<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= pizza.title %> (<%= ua_size %>)<img src=\"<%= pizza.icon %>\" class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= pizza[size].size %></div>\n        <div class=\"weight-icon\"><%= pizza[size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= pizza[size].price %>грн</span>\n        <a id=\"inc-button\" class=\"btn btn-danger glyphicon glyphicon-minus\"></a>\n        <span class=\"ct-amount\"><%= quantity %></span>\n        <a id=\"dec-button\" class=\"btn btn-success glyphicon glyphicon-plus\"></a>\n        <a id=\"rem-button\" class=\"btn button-remove glyphicon glyphicon-remove\"></a>\n    </div>\n</div>");
+    ejs.compile("<!--<div>\n    <%= pizza.title %> (<%= size %>)\n    <div>Ціна: <%= pizza[size].price %> грн.</div>\n    <div>\n        <button class=\"btn btn-danger minus\">-</button>\n        <span class=\"label label-default\"><%= quantity %></span>\n        <button class=\"btn btn-success plus\">+</button>\n    </div>\n</div>-->\n\n<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= pizza.title %> (<%= ua_size %>)<img src=\"<%= pizza.icon %>\" class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= pizza[size].size %></div>\n        <div class=\"weight-icon\"><%= pizza[size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= pizza[size].price %>грн</span>\n        <a id=\"dec-button\" class=\"btn btn-danger glyphicon glyphicon-minus\"></a>\n        <span class=\"ct-amount\"><%= quantity %></span>\n        <a id=\"inc-button\" class=\"btn btn-success glyphicon glyphicon-plus\"></a>\n        <a id=\"rem-button\" class=\"btn button-remove glyphicon glyphicon-remove\"></a>\n    </div>\n</div>");
 },{"ejs":8}],3:[function(require,module,exports){
 /**
  * Created by chaika on 25.01.16.
@@ -212,10 +212,8 @@ $(function(){
 var Templates = require('../Templates');
 var Pizza_Size = require('./Pizza_Size');
 
-//Змінна в якій зберігаються перелік піц в кошику
 var Cart = [];
 
-//HTML едемент куди будуть додаватися піци
 var $cart = $("#ct-container");
 
 function addToCart(pizza, size) {
@@ -235,9 +233,6 @@ function addToCart(pizza, size) {
         });
     }
 
-    // TODO remove console log
-    console.log(Pizza_Size.ua_name[size]);
-
     updateCart();
 }
 
@@ -253,6 +248,7 @@ function initialiseCart() {
     //Тут можна наприклад, зчитати вміст корзини який збережено в Local Storage то показати його
     //TODO: ...
 
+    $('#ct-clear').click(clearCart);
     updateCart();
 }
 
@@ -260,27 +256,34 @@ function getPizzaInCart() {
     return Cart;
 }
 
+    function clearCart() {
+        Cart.length = 0;
+        updateCart();
+    }
+
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
-    // TODO ass saving to local storage
+    // TODO add saving to local storage
+    // TODO add "remove all"
+    // TODO remove all the "href"s
 
-    // TODO rewrite
-
-    //Очищаємо старі піци в кошику
     $cart.html("");
 
-    //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
 
         var html_code = Templates.PizzaCart_OneItem(cart_item);
 
         var $node = $(html_code);
 
-        $node.find(".plus").click(function(){
-            //Збільшуємо кількість замовлених піц
-            cart_item.quantity += 1;
+        $node.find("#inc-button").click(function () {
+            cart_item.quantity++;
+            updateCart();
+        });
 
-            //Оновлюємо відображення
+        $node.find("#dec-button").click(function () {
+            cart_item.quantity--;
+            if (cart_item.quantity < 1)
+                removeFromCart(cart_item);
             updateCart();
         });
 
@@ -292,8 +295,17 @@ function updateCart() {
         $cart.append($node);
     }
 
-    Cart.forEach(showOnePizzaInCart);
+    function countOrderSum() {
+        var orderSum = 0;
+        Cart.forEach(function (t) {
+            orderSum += t.pizza[t.size].price * t.quantity;
+        });
+        return orderSum;
+    }
 
+    Cart.forEach(showOnePizzaInCart);
+    $('#ct-count').text(Cart.length);
+    $('#ct-summ').text(countOrderSum() + ' грн');
 }
 
 exports.removeFromCart = removeFromCart;
@@ -332,6 +344,7 @@ function showPizzaList(list) {
     }
 
     list.forEach(showOnePizza);
+    $('#head-counter').text(list.length);
 }
 
 function filterPizza(filter) {

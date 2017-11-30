@@ -28,10 +28,10 @@ function showPizzaList(list) {
     }
 
     list.forEach(showOnePizza);
+    $('#head-counter').text(list.length);
 }
 
 function filterPizza(filter) {
-    //Масив куди потраплять піци які треба показати
     var pizza_shown = [];
 
     Pizza_List.forEach(function(pizza){
@@ -45,6 +45,7 @@ function filterPizza(filter) {
 }
 
 function initialiseMenu() {
+    // TODO add filter configuration
     showPizzaList(Pizza_List)
 }
 

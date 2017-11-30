@@ -40,11 +40,17 @@ function initialiseCart() {
     //Тут можна наприклад, зчитати вміст корзини який збережено в Local Storage то показати його
     //TODO: ...
 
+    $('#ct-clear').click(clearCart);
     updateCart();
 }
 
 function getPizzaInCart() {
     return Cart;
+}
+
+function clearCart() {
+    Cart.length = 0;
+    updateCart();
 }
 
 function updateCart() {
@@ -53,24 +59,23 @@ function updateCart() {
     // TODO add "remove all"
     // TODO remove all the "href"s
 
-    // TODO correct +
-    // TODO write "minus"
-
-    //Очищаємо старі піци в кошику
     $cart.html("");
 
-    //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
 
         var html_code = Templates.PizzaCart_OneItem(cart_item);
 
         var $node = $(html_code);
 
-        $node.find(".plus").click(function(){
-            //Збільшуємо кількість замовлених піц
-            cart_item.quantity += 1;
+        $node.find("#inc-button").click(function () {
+            cart_item.quantity++;
+            updateCart();
+        });
 
-            //Оновлюємо відображення
+        $node.find("#dec-button").click(function () {
+            cart_item.quantity--;
+            if (cart_item.quantity < 1)
+                removeFromCart(cart_item);
             updateCart();
         });
 
@@ -82,8 +87,17 @@ function updateCart() {
         $cart.append($node);
     }
 
-    Cart.forEach(showOnePizzaInCart);
+    function countOrderSum() {
+        var orderSum = 0;
+        Cart.forEach(function (t) {
+            orderSum += t.pizza[t.size].price * t.quantity;
+        });
+        return orderSum;
+    }
 
+    Cart.forEach(showOnePizzaInCart);
+    $('#ct-count').text(Cart.length);
+    $('#ct-summ').text(countOrderSum() + ' грн');
 }
 
 exports.removeFromCart = removeFromCart;
