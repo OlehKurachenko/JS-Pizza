@@ -20,8 +20,7 @@ function addToCart(pizza, size) {
         Cart.push({
             pizza: pizza,
             size: size,
-            quantity: 1,
-            ua_size: Pizza_Size.ua_name[size]
+            quantity: 1
         });
     }
 
@@ -36,9 +35,12 @@ function removeFromCart(cart_item) {
 }
 
 function initialiseCart() {
-    //Фукнція віпрацьвуватиме при завантаженні сторінки
-    //Тут можна наприклад, зчитати вміст корзини який збережено в Local Storage то показати його
-    //TODO: ...
+    if (window.localStorage.getItem('cartArray')) {
+        Cart = JSON.parse(window.localStorage.getItem('cartArray'));
+        console.log(Cart);
+    }
+    else
+        Cart = [];
 
     $('#ct-clear').click(clearCart);
     updateCart();
@@ -54,14 +56,13 @@ function clearCart() {
 }
 
 function updateCart() {
-    //Функція викликається при зміні вмісту кошика
-    // TODO add saving to local storage
+    window.localStorage.setItem('cartArray', JSON.stringify(Cart));
 
     $cart.html("");
 
     function showOnePizzaInCart(cart_item) {
 
-        var html_code = Templates.PizzaCart_OneItem(cart_item);
+        var html_code = Templates.PizzaCart_OneItem({item: cart_item, size_desc: Pizza_Size});
 
         var $node = $(html_code);
 

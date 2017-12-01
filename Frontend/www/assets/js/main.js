@@ -188,7 +188,7 @@ exports.PizzaMenu_OneItem =
     ejs.compile("<%\n\nfunction getIngredientsArray(pizza) {\n    //Отримує вміст піци\n    var content = pizza.content;\n    var result = [];\n\n    //Object.keys повертає масив ключів в об’єкті JavaScript\n\n    Object.keys(content).forEach(function(key){\n\n        //a.concat(b) створює спільний масив із масивів a та b\n        result = result.concat(content[key]);\n    });\n\n    return result;\n}\n\n   %>\n<div class=\"col-md-6 col-lg-4 pizza-card\">\n    <% if(pizza.is_new) { %>\n    <div class=\"label label-danger state-label\">Нова</div>\n    <% } else if(pizza.is_popular) {%>\n    <div class=\"label label-success state-label\">Популярна</div>\n    <% } %>\n    <div class=\"thumbnail\">\n        <img src=\"<%= pizza.icon %>\">\n        <div class=\"caption\">\n            <h3><%= pizza.title %></h3>\n            <span class=\"pc-type\"><%= pizza.type %></span>\n            <p class=\"pc-description\">\n                <%= getIngredientsArray(pizza).join(\", \") %>\n            </p>\n        </div>\n        <div class=\"row pc-button-row\">\n            <% if (pizza.small_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.small_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.small_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.small_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-small\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n            <% if (pizza.big_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.big_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.big_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.big_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-big\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n        </div>\n    </div>\n</div>");
 
 exports.PizzaCart_OneItem =
-    ejs.compile("<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= pizza.title %> (<%= ua_size %>)<img src=\"<%= pizza.icon %>\" class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= pizza[size].size %></div>\n        <div class=\"weight-icon\"><%= pizza[size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= pizza[size].price %>грн</span>\n        <a id=\"dec-button\" class=\"btn btn-danger glyphicon glyphicon-minus\"></a>\n        <span class=\"ct-amount\"><%= quantity %></span>\n        <a id=\"inc-button\" class=\"btn btn-success glyphicon glyphicon-plus\"></a>\n        <a id=\"rem-button\" class=\"btn button-remove glyphicon glyphicon-remove\"></a>\n    </div>\n</div>");
+    ejs.compile("<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= item.pizza.title %> (<%= size_desc.ua_name[item.size] %>)<img src=\"<%= item.pizza.icon %>\" class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= item.pizza[item.size].size %></div>\n        <div class=\"weight-icon\"><%= item.pizza[item.size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= item.pizza[item.size].price %>грн</span>\n        <a id=\"dec-button\" class=\"btn btn-danger glyphicon glyphicon-minus\"></a>\n        <span class=\"ct-amount\"><%= item.quantity %></span>\n        <a id=\"inc-button\" class=\"btn btn-success glyphicon glyphicon-plus\"></a>\n        <a id=\"rem-button\" class=\"btn button-remove glyphicon glyphicon-remove\"></a>\n    </div>\n</div>");
 
     exports.PizzaFiltar_OneItem =
         ejs.compile("<li id=\"<%= pizzatype %>\"><a href=\"#\" class=\"<%= pizzatype %>\"><%= ua_name %></a></li>");
@@ -233,8 +233,7 @@ function addToCart(pizza, size) {
         Cart.push({
             pizza: pizza,
             size: size,
-            quantity: 1,
-            ua_size: Pizza_Size.ua_name[size]
+            quantity: 1
         });
     }
 
@@ -249,9 +248,12 @@ function removeFromCart(cart_item) {
 }
 
 function initialiseCart() {
-    //Фукнція віпрацьвуватиме при завантаженні сторінки
-    //Тут можна наприклад, зчитати вміст корзини який збережено в Local Storage то показати його
-    //TODO: ...
+    if (window.localStorage.getItem('cartArray')) {
+        Cart = JSON.parse(window.localStorage.getItem('cartArray'));
+        console.log(Cart);
+    }
+    else
+        Cart = [];
 
     $('#ct-clear').click(clearCart);
     updateCart();
@@ -267,16 +269,13 @@ function getPizzaInCart() {
         }
 
 function updateCart() {
-    //Функція викликається при зміні вмісту кошика
-    // TODO add saving to local storage
-    // TODO add "remove all"
-    // TODO remove all the "href"s
+    window.localStorage.setItem('cartArray', JSON.stringify(Cart));
 
     $cart.html("");
 
     function showOnePizzaInCart(cart_item) {
 
-        var html_code = Templates.PizzaCart_OneItem(cart_item);
+        var html_code = Templates.PizzaCart_OneItem({item: cart_item, size_desc: Pizza_Size});
 
         var $node = $(html_code);
 
@@ -401,9 +400,6 @@ var $pizza_list = $("#pizza_list");
         $pizza_list.append($node);
     }
 
-            /*Pizza_List.forEach(function () {
-                if
-            });*/
             Pizza_List.forEach(function (t) {
                 if (isSuitable(t)) {
                     pizzas_selected++;
@@ -412,19 +408,6 @@ var $pizza_list = $("#pizza_list");
             });
             $('#head-counter').text(pizzas_selected);
         }
-
-        /*function filterPizza(filter) {
-            var pizza_shown = [];
-
-            Pizza_List.forEach(function(pizza){
-                //Якщо піка відповідає фільтру
-                //pizza_shown.push(pizza);
-
-                //TODO: зробити фільтри
-            });
-
-            showPizzaList(pizza_shown);
-        }*/
 
 function initialiseMenu() {
     for (var key in PizzaFilters) {
@@ -591,7 +574,7 @@ function getIncludePath(path, options) {
 
             // Abs path
             if (path.charAt(0) == '/') {
-                includePath = exports.resolveInclude(path.replace(/^\/*/,''), options.root || '/', true);
+                includePath = exports.resolveInclude(path.replace(/^\/*/, ''), options.root || '/', true);
             }
             // Relative paths
             else {
@@ -616,7 +599,7 @@ function getIncludePath(path, options) {
                 }
             }
             return includePath;
-}
+        }
 
         /**
          * Get the template from a string or a file, either compiled on-the-fly or
@@ -666,7 +649,7 @@ function getIncludePath(path, options) {
                 exports.cache.set(filename, func);
             }
             return func;
-}
+        }
 
         /**
          * Try calling handleCache with the given options and data and call the
@@ -689,7 +672,7 @@ function getIncludePath(path, options) {
                 return cb(err);
             }
             return cb(null, result);
-}
+        }
 
         /**
          * fileLoader is independent
@@ -699,9 +682,9 @@ function getIncludePath(path, options) {
          * @static
          */
 
-        function fileLoader(filePath){
+        function fileLoader(filePath) {
             return exports.fileLoader(filePath);
-}
+        }
 
         /**
          * Get the template function.
@@ -720,7 +703,7 @@ function getIncludePath(path, options) {
             var opts = utils.shallowCopy({}, options);
             opts.filename = getIncludePath(path, opts);
             return handleCache(opts);
-}
+        }
 
         /**
          * Get the JavaScript source of an included file.
@@ -746,7 +729,7 @@ function getIncludePath(path, options) {
                 filename: includePath,
                 template: template
             };
-}
+        }
 
         /**
          * Re-throw the given `err` in context to the `str` of ejs, `filename`, and
@@ -761,13 +744,13 @@ function getIncludePath(path, options) {
          * @static
          */
 
-        function rethrow(err, str, flnm, lineno, esc){
+        function rethrow(err, str, flnm, lineno, esc) {
             var lines = str.split('\n');
             var start = Math.max(lineno - 3, 0);
             var end = Math.min(lines.length, lineno + 3);
             var filename = esc(flnm); // eslint-disable-line
             // Error context
-            var context = lines.slice(start, end).map(function (line, i){
+            var context = lines.slice(start, end).map(function (line, i) {
                 var curr = i + start + 1;
                 return (curr == lineno ? ' >> ' : '    ')
                     + curr
@@ -783,11 +766,11 @@ function getIncludePath(path, options) {
                 + err.message;
 
             throw err;
-}
+        }
 
-        function stripSemi(str){
+        function stripSemi(str) {
             return str.replace(/;(\s*$)/, '$1');
-}
+        }
 
         /**
          * Compile the given `str` of ejs into a template function.
@@ -808,7 +791,7 @@ function getIncludePath(path, options) {
             // 'scope' is 'context'
             // FIXME: Remove this in a future version
             if (opts && opts.scope) {
-                if (!scopeOptionWarned){
+                if (!scopeOptionWarned) {
                     console.warn('`scope` option is deprecated and will be removed in EJS 3');
                     scopeOptionWarned = true;
                 }
@@ -819,7 +802,7 @@ function getIncludePath(path, options) {
             }
             templ = new Template(template, opts);
             return templ.compile();
-};
+        };
 
         /**
          * Render the given `template` of ejs.
@@ -845,7 +828,7 @@ function getIncludePath(path, options) {
             }
 
             return handleCache(opts, template)(data);
-};
+        };
 
         /**
          * Render an EJS file at the given `path` and callback `cb(err, str)`.
@@ -898,7 +881,7 @@ function getIncludePath(path, options) {
             }
 
             return tryHandleCache(opts, data, cb);
-};
+        };
 
         /**
          * Clear intermediate JavaScript cache. Calls {@link Cache#reset}.
@@ -907,7 +890,7 @@ function getIncludePath(path, options) {
 
         exports.clearCache = function () {
             exports.cache.reset();
-};
+        };
 
         function Template(text, opts) {
             opts = opts || {};
@@ -942,7 +925,7 @@ function getIncludePath(path, options) {
             this.opts = options;
 
             this.regex = this.createRegex();
-}
+        }
 
         Template.modes = {
             EVAL: 'eval',
@@ -950,7 +933,7 @@ function getIncludePath(path, options) {
             RAW: 'raw',
             COMMENT: 'comment',
             LITERAL: 'literal'
-};
+        };
 
         Template.prototype = {
             createRegex: function () {
@@ -972,7 +955,7 @@ function getIncludePath(path, options) {
                     this.generateSource();
                     prepended += '  var __output = [], __append = __output.push.bind(__output);' + '\n';
                     if (opts._with !== false) {
-                        prepended +=  '  with (' + opts.localsName + ' || {}) {' + '\n';
+                        prepended += '  with (' + opts.localsName + ' || {}) {' + '\n';
                         appended += '  }' + '\n';
                     }
                     appended += '  return __output.join("");' + '\n';
@@ -1011,7 +994,7 @@ function getIncludePath(path, options) {
                 try {
                     fn = new Function(opts.localsName + ', escapeFn, include, rethrow', src);
                 }
-                catch(e) {
+                catch (e) {
                     // istanbul ignore else
                     if (e instanceof SyntaxError) {
                         if (opts.filename) {
@@ -1076,7 +1059,7 @@ function getIncludePath(path, options) {
                         // FIXME: May end up with some false positives here
                         // Better to store modes as k/v with '<' + delimiter as key
                         // Then this can simply check against the map
-                        if ( line.indexOf('<' + d) === 0        // If it is a tag
+                        if (line.indexOf('<' + d) === 0        // If it is a tag
                             && line.indexOf('<' + d + d) !== 0) { // and is not escaped
                             closing = matches[index + 2];
                             if (!(closing == d + '>' || closing == '-' + d + '>' || closing == '_' + d + '>')) {
@@ -1102,7 +1085,7 @@ function getIncludePath(path, options) {
                                         + '        rethrow(e, __lines, __filename, __line, escapeFn);' + '\n'
                                         + '      }' + '\n'
                                         + '    ; }).call(this)' + '\n';
-                                }else{
+                                } else {
                                     includeSrc = '    ; (function(){' + '\n' + includeObj.source +
                                         '    ; }).call(this)' + '\n';
                                 }
@@ -1261,7 +1244,7 @@ function getIncludePath(path, options) {
                     this.source += '    ; __line = ' + this.currentLine + '\n';
                 }
             }
-};
+        };
 
         /**
          * Escape characters reserved in XML.
