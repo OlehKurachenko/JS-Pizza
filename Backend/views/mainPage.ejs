@@ -1,7 +1,33 @@
 <% include common/header.ejs %>
 
-<div class="">
-    Main Page Content
+<div id="main" class="container-fluid">
+    <div id="range" class="container">
+        <div class="col-xs-12" style="height:80px"></div>
+        <div class="range-head">
+            <h2 id="head-label">Усі піци</h2>
+            <p id="head-counter"></p>
+        </div>
+        <div class="range-nav-center">
+            <ul id="range-nav" class="nav nav-pills range-nav"></ul>
+        </div>
+        <div class="col-xs-12" style="height:20px"></div>
+        <div class="row" id="pizza_list"></div>
+    </div>
+    <div id="cart">
+        <div id="cart-head">
+            <div class="ct-order">Замовлення</div>
+            <div id="ct-count">2</div>
+            <a id="ct-clear">Очистити замовлення</a>
+        </div>
+        <div id="ct-container" class="ct-container"></div>
+        <div class="cart-bottom">
+            <div class="ct-summ">
+                <p class="ct-summ-t">Сума замовлення</p>
+                <p id="ct-summ"></p>
+            </div>
+            <a id="ct-order" href="#" class="btn btn-warning">Замовити</a>
+        </div>
+    </div>
 </div>
 
 <% include common/footer.ejs %>

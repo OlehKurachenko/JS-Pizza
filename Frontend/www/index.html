@@ -13,51 +13,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
 </head>
 <body>
+<div id="range-navbar" class="navbar navbar-fixed-top navbar-inverse">
+    <div id="navbar-main">
+        <div class="navbar-line-1">
+            <div class="navbar-phone">(044) 101 5 610</div>
+            <div class="visible-md-inline-block visible-lg-inline-block navbar-time">24 години/7 днів на тиждень</div>
+            <div class="visible-lg-inline-block navbar-freeship">Безкоштовна доставка піци</div>
+            <button class="btn btn-warning" style="float: right">Увійти</button>
+        </div>
+        <div class="navbar-line-2">
+            <div class="navbar-line-2-pizza visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                Піца
+            </div>
+        </div>
+    </div>
+</div>
+<div class="label-top">
+    <div class="label-text">
+        <div class="label-text-1">PIZZA</div>
+        <div class="label-text-2">KMA</div>
+    </div>
+    <img src="assets/images/discount.svg">
+</div>
+<div class="label-bottom">
+    <img src="assets/images/discount.svg">
+    <div class="label-text">
+        <div class="label-text-1">ЦЬОГО</div>
+        <div class="label-text-1">ТИЖНЯ</div>
+        <div class="label-text-1">НА ВСЕ</div>
+        <div class="label-text-2">-20%</div>
+    </div>
+</div>
 <div id="main" class="container-fluid">
     <div id="range" class="container">
-        <div id="range-navbar" class="navbar navbar-fixed-top navbar-inverse">
-            <div id="navbar-main">
-                <div class="navbar-line-1">
-                    <div class="navbar-phone">(044) 101 5 610</div>
-                    <div class="visible-md-inline-block visible-lg-inline-block navbar-time">24 години/7 днів на тиждень</div>
-                    <div class="visible-lg-inline-block navbar-freeship">Безкоштовна доставка піци</div>
-                    <button class="btn btn-warning" style="float: right">Увійти</button>
-                </div>
-                <div class="navbar-line-2">
-                    <div class="navbar-line-2-pizza visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">Піца</div>
-                </div>
-            </div>
-        </div>
-        <div class="label-top">
-            <div class="label-text">
-                <div class="label-text-1">PIZZA</div>
-                <div class="label-text-2">KMA</div>
-            </div>
-            <img src="assets/images/discount.svg">
-        </div>
-        <div class="label-bottom">
-            <img src="assets/images/discount.svg">
-            <div class="label-text">
-                <div class="label-text-1">ЦЬОГО</div>
-                <div class="label-text-1">ТИЖНЯ</div>
-                <div class="label-text-1">НА ВСЕ</div>
-                <div class="label-text-2">-20%</div>
-            </div>
-        </div>
         <div class="col-xs-12" style="height:80px"></div>
         <div class="range-head">
             <h2 id="head-label">Усі піци</h2>
             <p id="head-counter"></p>
         </div>
         <div class="range-nav-center">
-            <ul id="range-nav" class="nav nav-pills range-nav">
-                <!--li class="active"><a href="#">Усі</a></li>
-                <li><a href="#">М'ясні</a></li>
-                <li><a href="#">З ананасами</a></li>
-                <li><a href="#">З грибами</a></li>
-                <li><a href="#">З морепродуктами</a></li>
-                <li><a href="#">Вега</a></li-->
-            </ul>
+            <ul id="range-nav" class="nav nav-pills range-nav"></ul>
         </div>
         <div class="col-xs-12" style="height:20px"></div>
         <div class="row" id="pizza_list"></div>
@@ -83,14 +78,10 @@
     <p>Доставка піци не здійснюється.</p>
 </footer>
 
-<!-- jQuery JavaScript -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
-<!--Bootsrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-<!--Own JavaScript -->
-<!--<script type="text/javascript"  src="assets/js/main.js"> </script>-->
 <script type="text/javascript"  src="assets/js/main.js"> </script>
 </body>
 </html>
