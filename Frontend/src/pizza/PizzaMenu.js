@@ -4,9 +4,11 @@
  */
 var Templates = require('../Templates');
 var PizzaCart = require('./PizzaCart');
-var Pizza_List = require('../Pizza_List');
+var Pizza_List;
 var Pizza_Size = require('./Pizza_Size');
 var PizzaFilters = require('./PizzaFilters');
+
+var ajax_api = require('../ajax')
 
 var $pizza_list = $("#pizza_list");
 var $range_nav = $('#range-nav');
@@ -41,21 +43,24 @@ function showPizzaList(isSuitable) {
 }
 
 function initialiseMenu() {
-    for (var key in PizzaFilters) {
-        var filter = PizzaFilters[key];
-        filters[PizzaFilters[key].pizzatype] = PizzaFilters[key];
-        var html_code = Templates.PizzaFiltar_OneItem(filter);
-        var $node = $(html_code);
-        $node.find('.' + filter.pizzatype).click(function () {
-            var pizzatype = $(this).attr('class');
-            $range_nav.find('.active').removeClass('active');
-            $range_nav.find('#' + pizzatype).addClass('active');
-            showPizzaList(filters[pizzatype].isSuitable);
-        });
-        $range_nav.append($node);
-    }
-    $range_nav.find('#' + PizzaFilters.All.pizzatype).addClass('active');
-    showPizzaList(PizzaFilters.All.isSuitable);
+    ajax_api.get('api/get-pizza-list/', function (data) {
+        Pizza_List = data;
+        for (var key in PizzaFilters) {
+            var filter = PizzaFilters[key];
+            filters[PizzaFilters[key].pizzatype] = PizzaFilters[key];
+            var html_code = Templates.PizzaFiltar_OneItem(filter);
+            var $node = $(html_code);
+            $node.find('.' + filter.pizzatype).click(function () {
+                var pizzatype = $(this).attr('class');
+                $range_nav.find('.active').removeClass('active');
+                $range_nav.find('#' + pizzatype).addClass('active');
+                showPizzaList(filters[pizzatype].isSuitable);
+            });
+            $range_nav.append($node);
+        }
+        $range_nav.find('#' + PizzaFilters.All.pizzatype).addClass('active');
+        showPizzaList(PizzaFilters.All.isSuitable);
+    });
 }
 
 exports.initialiseMenu = initialiseMenu;

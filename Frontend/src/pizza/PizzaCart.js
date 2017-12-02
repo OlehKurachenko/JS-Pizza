@@ -35,10 +35,8 @@ function removeFromCart(cart_item) {
 }
 
 function initialiseCart() {
-    if (window.localStorage.getItem('cartArray')) {
+    if (window.localStorage.getItem('cartArray'))
         Cart = JSON.parse(window.localStorage.getItem('cartArray'));
-        console.log(Cart);
-    }
     else
         Cart = [];
 
