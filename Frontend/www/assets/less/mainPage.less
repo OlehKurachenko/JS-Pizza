@@ -1,0 +1,53 @@
+@import "constants";
+@import "common";
+
+#main {
+  min-width: 610px;
+}
+
+#range {
+  .range-head {
+    text-align: center;
+
+    #head-label {
+      display: inline-block;
+    }
+
+    #head-counter {
+      display: inline-block;
+      border-radius: 15px;
+      background-color: @h3Color;
+      font-weight: bold;
+      color: white;
+      padding: 4px 10px;
+      border-bottom: 10px;
+      vertical-align: middle;
+    }
+
+    #head-label:after {
+      display: inline-block;
+      content: " ";
+      width: 10px;
+    }
+  }
+
+  .range-nav-center {
+    text-align: center;
+
+    #range-nav {
+      display: inline-block;
+    }
+
+    .nav-pills a {
+      color: #ff7a00 !important;
+    }
+
+    .nav-pills .active a {
+      background-color: @h3Color !important;
+      color: white !important;
+    }
+  }
+}
+
+@import "pizza/pizza-card";
+@import "pizza/cart";

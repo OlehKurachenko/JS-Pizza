@@ -1,0 +1,209 @@
+@import "constants";
+
+// Header
+
+#range-navbar {
+  padding-right: @cartSize;
+  z-index: 10;
+  opacity: 0.9;
+  min-width: 550px;
+
+  #navbar-main {
+    padding-left: 130px;
+    color: gray;
+
+    .navbar-line-1 {
+      border-bottom: 1px solid;
+      height: 45px;
+      margin-right: 15px;
+
+      .navbar-phone {
+        font-size: 20px;
+        padding: 5px;
+        display: inline-block;
+      }
+
+      .navbar-time {
+        font-size: 12px;
+        padding: 5px;
+      }
+
+      .navbar-freeship {
+        font-size: 16px;
+        padding: 5px;
+      }
+
+      .btn {
+        display: inline-block;
+        float: left;
+        margin-top: 5px;
+        vertical-align: middle;
+      }
+    }
+
+    .navbar-line-2 {
+      .navbar-line-2-pizza {
+        font-size: 18px;
+        padding: 5px;
+        color: white;
+      }
+    }
+  }
+}
+
+@media (max-width: @screen-xs) {
+  #range-navbar {
+    #navbar-main {
+      .navbar-line-1 {
+        height: 30px;
+        .navbar-phone {
+          font-size: 12px;
+        }
+        .btn {
+          margin-top: 37px;
+          margin-bottom: 5px;
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+// Labels
+
+.label-top {
+  position: fixed;
+  top: 0;
+  left: 10px;
+  z-index: 1100;
+
+  transition: all 0.5s ease;
+
+  img {
+    transform: rotate(180deg);
+  }
+
+  .label-text {
+    background-color: @h3Color;
+    color: white;
+    width: auto;
+    border-left: darken(@h3Color, 10%) 1px solid;
+    border-right: darken(@h3Color, 10%) 1px solid;
+  }
+
+  .label-text-1 {
+    font-size: 20px;
+    padding: 15px 20px 5px;
+  }
+
+  .label-text-2 {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: -8px;
+    padding-bottom: 15px;
+  }
+}
+
+.label-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+  z-index: 1100;
+
+  transition: all 0.5s ease;
+
+  .label-text {
+    background-color: @h3Color;
+    color: white;
+    width: auto;
+    border-left: darken(@h3Color, 10%) 1px solid;
+    border-right: darken(@h3Color, 10%) 1px solid;
+    margin-top: -6px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .label-text-1 {
+    font-size: 16px;
+    padding-top: 15px;
+    padding-bottom: 0;
+    height: 22px;
+  }
+
+  .label-text-2 {
+    font-size: 14px;
+    padding-bottom: 10px;
+    padding-top: 25px;
+  }
+}
+
+.label-top:hover {
+  opacity: 0.3;
+}
+
+.label-bottom:hover {
+  opacity: 0.3;
+}
+
+// Footer
+
+.footer {
+  padding-right: @cartSize;
+  text-align: center;
+  border-top: lightgray 1px solid;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  p:first-child {
+    margin-top: 30px;
+  }
+  p:last-child {
+    margin-bottom: 30px;
+  }
+  p {
+    color: gray;
+    margin-bottom: 10px;
+  }
+}
+
+// Common structure
+
+#cart {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: @cartSize;
+
+  background-color: white;
+
+  box-shadow: 0 0 5px 1px gray;
+
+  z-index: 20;
+}
+
+#range {
+  padding-right: @cartSize + 20px;
+}
+
+// Common styles
+
+.diameter-icon:before {
+  content: "";
+  display: inline-block;
+  background-image: url("../../assets/images/size-icon.svg");
+  width: 12px;
+  height: 12px;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+
+.weight-icon:before {
+  content: "";
+  display: inline-block;
+  background-image: url("../../assets/images/weight.svg");
+  width: 9px;
+  height: 12px;
+  margin-right: 3px;
+  vertical-align: middle;
+}

@@ -62,13 +62,11 @@ exports.PizzaCart_OneItem =
  */
 
 $(function(){
-    //This code will execute when the page is ready
     var PizzaMenu = require('./pizza/PizzaMenu');
     var PizzaCart = require('./pizza/PizzaCart');
 
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
-
 });
     }, {"./pizza/PizzaCart": 4, "./pizza/PizzaMenu": 6}],
     4: [function (require, module, exports) {

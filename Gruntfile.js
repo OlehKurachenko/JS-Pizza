@@ -2,6 +2,8 @@
  * Created by Andriy on 10.03.2015.
  */
 module.exports = function(grunt) {
+    require('jit-grunt')(grunt);
+
     //Налаштування збірки Grunt
     var config = {
         //Інформацію про проект з файлу package.json
@@ -24,6 +26,18 @@ module.exports = function(grunt) {
             pizza: {
                 src:        'Frontend/src/main.js',
                 dest:       'Frontend/www/assets/js/main.js'
+            }
+        },
+        less: {
+            development: {
+                options: {
+                    compress: !true,
+                    yuicompress: !true//,
+                    //optimization: 2
+                },
+                files: {
+                    "Frontend/www/assets/css/mainPage.css": "Frontend/www/assets/less/mainPage.less"
+                }
             }
         }
     };
@@ -56,6 +70,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default',
         [
             'browserify:pizza',
+            'less'
             //Інші завдання які необхідно виконати
         ]
     );
