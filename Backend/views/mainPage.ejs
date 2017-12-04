@@ -1,7 +1,8 @@
-<%- include('common/header', {cssArray: ['mainPage.css']}) %>
+<%- include('common/header', {cssArray: ['common.css', 'mainPage.css'], pageTitle: 'Вибір Піци'}) %>
 
 <div id="main" class="container-fluid">
     <div id="range" class="container">
+        <div class="col-xs-12" style="height:80px"></div>
         <%- include('range/range_range') %>
     </div>
     <div id="cart">
@@ -9,4 +10,4 @@
     </div>
 </div>
 
-<%- include('common/footer') %>
+<%- include('common/footer', {jsFileName: "rangePage.js"}) %>

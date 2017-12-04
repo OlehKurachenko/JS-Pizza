@@ -1,0 +1,23 @@
+<%
+function ua_numeric_ending(number) {
+    if (number > 10 && number < 20)
+        return '';
+    if (number % 10 == 1)
+        return 'a';
+    if (number % 10 > 1 && number < 5)
+        return 'и'
+    return '';
+}
+%>
+<div class="ct-typeorder">
+    <span class="ct-name"><%= item.pizza.title %> (<%= size_desc.ua_name[item.size] %>)<img src="<%= item.pizza.icon %>"
+                                                                                            class="ct-image"></span>
+    <div class="ct-dimentions">
+        <div class="diameter-icon"><%= item.pizza[item.size].size %></div>
+        <div class="weight-icon"><%= item.pizza[item.size].weight %></div>
+    </div>
+    <div class="ct-buttons">
+        <span class="ct-price"><%= item.pizza[item.size].price %>грн</span>
+        <span class="ct-amount"><%= item.quantity %> піц<%= ua_numeric_ending(item.quantity) %></span>
+    </div>
+</div>

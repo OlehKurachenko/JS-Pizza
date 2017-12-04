@@ -1,16 +1,39 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/**
- * Created by chaika on 02.02.16.
- * Refactored according to task by soll_nevermind on 29.11.17
- */
+(function e(t, n, r) {
+    function s(o, u) {
+        if (!n[o]) {
+            if (!t[o]) {
+                var a = typeof require == "function" && require;
+                if (!u && a) return a(o, !0);
+                if (i) return i(o, !0);
+                var f = new Error("Cannot find module '" + o + "'");
+                throw f.code = "MODULE_NOT_FOUND", f
+            }
+            var l = n[o] = {exports: {}};
+            t[o][0].call(l.exports, function (e) {
+                var n = t[o][1][e];
+                return s(n ? n : e)
+            }, l, l.exports, e, t, n, r)
+        }
+        return n[o].exports
+    }
 
-var ejs = require('ejs');
+    var i = typeof require == "function" && require;
+    for (var o = 0; o < r.length; o++) s(r[o]);
+    return s
+})({
+    1: [function (require, module, exports) {
+        /**
+         * Created by chaika on 02.02.16.
+         * Refactored according to task by soll_nevermind on 29.11.17
+         */
 
-exports.PizzaMenu_OneItem =
-    ejs.compile("<%\n\nfunction getIngredientsArray(pizza) {\n    //Отримує вміст піци\n    var content = pizza.content;\n    var result = [];\n\n    //Object.keys повертає масив ключів в об’єкті JavaScript\n\n    Object.keys(content).forEach(function(key){\n\n        //a.concat(b) створює спільний масив із масивів a та b\n        result = result.concat(content[key]);\n    });\n\n    return result;\n}\n\n   %>\n<div class=\"col-md-6 col-lg-4 pizza-card\">\n    <% if(pizza.is_new) { %>\n    <div class=\"label label-danger state-label\">Нова</div>\n    <% } else if(pizza.is_popular) {%>\n    <div class=\"label label-success state-label\">Популярна</div>\n    <% } %>\n    <div class=\"thumbnail\">\n        <img src=\"<%= pizza.icon %>\">\n        <div class=\"caption\">\n            <h3><%= pizza.title %></h3>\n            <span class=\"pc-type\"><%= pizza.type %></span>\n            <p class=\"pc-description\">\n                <%= getIngredientsArray(pizza).join(\", \") %>\n            </p>\n        </div>\n        <div class=\"row pc-button-row\">\n            <% if (pizza.small_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.small_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.small_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.small_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-small\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n            <% if (pizza.big_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.big_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.big_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.big_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-big\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n        </div>\n    </div>\n</div>");
+        var ejs = require('ejs');
 
-exports.PizzaCart_OneItem =
-    ejs.compile("<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= item.pizza.title %> (<%= size_desc.ua_name[item.size] %>)<img src=\"<%= item.pizza.icon %>\"\n                                                                                            class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= item.pizza[item.size].size %></div>\n        <div class=\"weight-icon\"><%= item.pizza[item.size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= item.pizza[item.size].price %>грн</span>\n        <a id=\"dec-button\" class=\"btn btn-danger glyphicon glyphicon-minus\"></a>\n        <span class=\"ct-amount\"><%= item.quantity %></span>\n        <a id=\"inc-button\" class=\"btn btn-success glyphicon glyphicon-plus\"></a>\n        <a id=\"rem-button\" class=\"btn button-remove glyphicon glyphicon-remove\"></a>\n    </div>\n</div>");
+        exports.PizzaMenu_OneItem =
+            ejs.compile("<%\n\nfunction getIngredientsArray(pizza) {\n    //Отримує вміст піци\n    var content = pizza.content;\n    var result = [];\n\n    //Object.keys повертає масив ключів в об’єкті JavaScript\n\n    Object.keys(content).forEach(function(key){\n\n        //a.concat(b) створює спільний масив із масивів a та b\n        result = result.concat(content[key]);\n    });\n\n    return result;\n}\n\n   %>\n<div class=\"col-md-6 col-lg-4 pizza-card\">\n    <% if(pizza.is_new) { %>\n    <div class=\"label label-danger state-label\">Нова</div>\n    <% } else if(pizza.is_popular) {%>\n    <div class=\"label label-success state-label\">Популярна</div>\n    <% } %>\n    <div class=\"thumbnail\">\n        <img src=\"<%= pizza.icon %>\">\n        <div class=\"caption\">\n            <h3><%= pizza.title %></h3>\n            <span class=\"pc-type\"><%= pizza.type %></span>\n            <p class=\"pc-description\">\n                <%= getIngredientsArray(pizza).join(\", \") %>\n            </p>\n        </div>\n        <div class=\"row pc-button-row\">\n            <% if (pizza.small_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.small_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.small_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.small_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-small\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n            <% if (pizza.big_size) { %>\n            <div class=\"<% if (pizza.small_size && pizza.big_size) { %> col-xs-6 <% }\n            else { %> col-xs-12 <% } %>\">\n                <div class=\"pc-diameter diameter-icon\"><%= pizza.big_size.size %></div>\n                <div class=\"pc-weight weight-icon\"><%= pizza.big_size.weight %></div>\n                <h3 class=\"pc-price\"><%= pizza.big_size.price %></h3>\n                <p class=\"pc-price-uah\">грн.</p>\n                <a id=\"buy-big\" class=\"btn btn-warning\">Купити</a>\n            </div>\n            <% } %>\n        </div>\n    </div>\n</div>");
+
+        exports.PizzaCart_OneItem =
+            ejs.compile("<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= item.pizza.title %> (<%= size_desc.ua_name[item.size] %>)<img src=\"<%= item.pizza.icon %>\"\n                                                                                            class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= item.pizza[item.size].size %></div>\n        <div class=\"weight-icon\"><%= item.pizza[item.size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= item.pizza[item.size].price %>грн</span>\n        <a id=\"dec-button\" class=\"btn btn-danger glyphicon glyphicon-minus\"></a>\n        <span class=\"ct-amount\"><%= item.quantity %></span>\n        <a id=\"inc-button\" class=\"btn btn-success glyphicon glyphicon-plus\"></a>\n        <a id=\"rem-button\" class=\"btn button-remove glyphicon glyphicon-remove\"></a>\n    </div>\n</div>");
 
         exports.PizzaFiltar_OneItem =
             ejs.compile("<li id=\"<%= pizzatype %>\"><a href=\"#\" class=\"<%= pizzatype %>\"><%= ua_name %></a></li>");
@@ -57,125 +80,112 @@ exports.PizzaCart_OneItem =
         exports.post = ajaxPost;
     }, {}],
     3: [function (require, module, exports) {
-/**
- * Created by chaika on 25.01.16.
- */
+        /**
+         * Created by chaika on 02.02.16.
+         */
+        var Templates = require('../Templates');
+        var Pizza_Size = require('./Pizza_Size');
 
-$(function(){
-    var PizzaMenu = require('./pizza/PizzaMenu');
-    var PizzaCart = require('./pizza/PizzaCart');
+        var Cart = [];
 
-    PizzaCart.initialiseCart();
-    PizzaMenu.initialiseMenu();
-});
-    }, {"./pizza/PizzaCart": 4, "./pizza/PizzaMenu": 6}],
-    4: [function (require, module, exports) {
-/**
- * Created by chaika on 02.02.16.
- */
-var Templates = require('../Templates');
-var Pizza_Size = require('./Pizza_Size');
+        var $cart = $("#ct-container");
 
-var Cart = [];
+        function addToCart(pizza, size) {
 
-var $cart = $("#ct-container");
+            var pizzaInCart = Cart.find(function (cart_item) {
+                return (cart_item.pizza === pizza && cart_item.size === size);
+            });
 
-function addToCart(pizza, size) {
+            if (pizzaInCart) {
+                pizzaInCart.quantity++;
+            } else {
+                Cart.push({
+                    pizza: pizza,
+                    size: size,
+                    quantity: 1
+                });
+            }
 
-    var pizzaInCart = Cart.find(function (cart_item) {
-        return (cart_item.pizza === pizza && cart_item.size === size);
-    });
+            updateCart();
+        }
 
-    if (pizzaInCart) {
-        pizzaInCart.quantity++;
-    } else {
-        Cart.push({
-            pizza: pizza,
-            size: size,
-            quantity: 1
-        });
-    }
+        function removeFromCart(cart_item) {
 
-    updateCart();
-}
+            Cart.splice(Cart.indexOf(cart_item), 1);
 
-function removeFromCart(cart_item) {
+            updateCart();
+        }
 
-    Cart.splice(Cart.indexOf(cart_item), 1);
+        function initialiseCart() {
+            if (window.localStorage.getItem('cartArray'))
+                Cart = JSON.parse(window.localStorage.getItem('cartArray'));
+            else
+                Cart = [];
 
-    updateCart();
-}
+            $('#ct-clear').click(clearCart);
+            updateCart();
+        }
 
-function initialiseCart() {
-    if (window.localStorage.getItem('cartArray'))
-        Cart = JSON.parse(window.localStorage.getItem('cartArray'));
-    else
-        Cart = [];
-
-    $('#ct-clear').click(clearCart);
-    updateCart();
-}
-
-function getPizzaInCart() {
-    return Cart;
-}
+        function getPizzaInCart() {
+            return Cart;
+        }
 
         function clearCart() {
             Cart.length = 0;
             updateCart();
         }
 
-function updateCart() {
-    window.localStorage.setItem('cartArray', JSON.stringify(Cart));
+        function updateCart() {
+            window.localStorage.setItem('cartArray', JSON.stringify(Cart));
 
-    $cart.html("");
+            $cart.html("");
 
-    function showOnePizzaInCart(cart_item) {
+            function showOnePizzaInCart(cart_item) {
 
-        var html_code = Templates.PizzaCart_OneItem({item: cart_item, size_desc: Pizza_Size});
+                var html_code = Templates.PizzaCart_OneItem({item: cart_item, size_desc: Pizza_Size});
 
-        var $node = $(html_code);
+                var $node = $(html_code);
 
-        $node.find("#inc-button").click(function () {
-            cart_item.quantity++;
-            updateCart();
-        });
+                $node.find("#inc-button").click(function () {
+                    cart_item.quantity++;
+                    updateCart();
+                });
 
-        $node.find("#dec-button").click(function () {
-            cart_item.quantity--;
-            if (cart_item.quantity < 1)
-                removeFromCart(cart_item);
-            updateCart();
-        });
+                $node.find("#dec-button").click(function () {
+                    cart_item.quantity--;
+                    if (cart_item.quantity < 1)
+                        removeFromCart(cart_item);
+                    updateCart();
+                });
 
-        $node.find('#rem-button').click(function () {
-            removeFromCart(cart_item);
-            updateCart();
-        });
+                $node.find('#rem-button').click(function () {
+                    removeFromCart(cart_item);
+                    updateCart();
+                });
 
-        $cart.append($node);
-    }
+                $cart.append($node);
+            }
 
-    function countOrderSum() {
-        var orderSum = 0;
-        Cart.forEach(function (t) {
-            orderSum += t.pizza[t.size].price * t.quantity;
-        });
-        return orderSum;
-    }
+            function countOrderSum() {
+                var orderSum = 0;
+                Cart.forEach(function (t) {
+                    orderSum += t.pizza[t.size].price * t.quantity;
+                });
+                return orderSum;
+            }
 
-    Cart.forEach(showOnePizzaInCart);
-    $('#ct-count').text(Cart.length);
-    $('#ct-summ').text(countOrderSum() + ' грн');
-}
+            Cart.forEach(showOnePizzaInCart);
+            $('#ct-count').text(Cart.length);
+            $('#ct-summ').text(countOrderSum() + ' грн');
+        }
 
-exports.removeFromCart = removeFromCart;
-exports.addToCart = addToCart;
+        exports.removeFromCart = removeFromCart;
+        exports.addToCart = addToCart;
 
-exports.getPizzaInCart = getPizzaInCart;
-exports.initialiseCart = initialiseCart;
-    }, {"../Templates": 1, "./Pizza_Size": 7}],
-    5: [function (require, module, exports) {
+        exports.getPizzaInCart = getPizzaInCart;
+        exports.initialiseCart = initialiseCart;
+    }, {"../Templates": 1, "./Pizza_Size": 6}],
+    4: [function (require, module, exports) {
         var PizzaFilters = {
             All: {
                 pizzatype: 'pizzatype-all',
@@ -223,41 +233,41 @@ exports.initialiseCart = initialiseCart;
 
         module.exports = PizzaFilters;
     }, {}],
-    6: [function (require, module, exports) {
-/**
- * Created by chaika on 02.02.16.
- * Refactored according to task by soll_nevermind on 29.11.17
- */
-var Templates = require('../Templates');
-var PizzaCart = require('./PizzaCart');
+    5: [function (require, module, exports) {
+        /**
+         * Created by chaika on 02.02.16.
+         * Refactored according to task by soll_nevermind on 29.11.17
+         */
+        var Templates = require('../Templates');
+        var PizzaCart = require('./PizzaCart');
         var Pizza_List;
-var Pizza_Size = require('./Pizza_Size');
+        var Pizza_Size = require('./Pizza_Size');
         var PizzaFilters = require('./PizzaFilters');
 
         var ajax_api = require('../ajax')
 
-var $pizza_list = $("#pizza_list");
+        var $pizza_list = $("#pizza_list");
         var $range_nav = $('#range-nav');
         var filters = {};
 
         function showPizzaList(isSuitable) {
-    $pizza_list.html("");
+            $pizza_list.html("");
             var pizzas_selected = 0;
 
-    function showOnePizza(pizza) {
-        var html_code = Templates.PizzaMenu_OneItem({pizza: pizza});
+            function showOnePizza(pizza) {
+                var html_code = Templates.PizzaMenu_OneItem({pizza: pizza});
 
-        var $node = $(html_code);
+                var $node = $(html_code);
 
-        $node.find("#buy-big").click(function(){
-            PizzaCart.addToCart(pizza, Pizza_Size.Big);
-        });
-        $node.find("#buy-small").click(function(){
-            PizzaCart.addToCart(pizza, Pizza_Size.Small);
-        });
+                $node.find("#buy-big").click(function () {
+                    PizzaCart.addToCart(pizza, Pizza_Size.Big);
+                });
+                $node.find("#buy-small").click(function () {
+                    PizzaCart.addToCart(pizza, Pizza_Size.Small);
+                });
 
-        $pizza_list.append($node);
-    }
+                $pizza_list.append($node);
+            }
 
             Pizza_List.forEach(function (t) {
                 if (isSuitable(t)) {
@@ -268,61 +278,75 @@ var $pizza_list = $("#pizza_list");
             $('#head-counter').text(pizzas_selected);
         }
 
-function initialiseMenu() {
-    ajax_api.get('api/get-pizza-list/', function (data) {
-        Pizza_List = data;
-        for (var key in PizzaFilters) {
-            var filter = PizzaFilters[key];
-            filters[PizzaFilters[key].pizzatype] = PizzaFilters[key];
-            var html_code = Templates.PizzaFiltar_OneItem(filter);
-            var $node = $(html_code);
-            $node.find('.' + filter.pizzatype).click(function () {
-                var pizzatype = $(this).attr('class');
-                $range_nav.find('.active').removeClass('active');
-                $range_nav.find('#' + pizzatype).addClass('active');
-                showPizzaList(filters[pizzatype].isSuitable);
+        function initialiseMenu() {
+            ajax_api.get('api/get-pizza-list/', function (data) {
+                Pizza_List = data;
+                for (var key in PizzaFilters) {
+                    var filter = PizzaFilters[key];
+                    filters[PizzaFilters[key].pizzatype] = PizzaFilters[key];
+                    var html_code = Templates.PizzaFiltar_OneItem(filter);
+                    var $node = $(html_code);
+                    $node.find('.' + filter.pizzatype).click(function () {
+                        var pizzatype = $(this).attr('class');
+                        $range_nav.find('.active').removeClass('active');
+                        $range_nav.find('#' + pizzatype).addClass('active');
+                        showPizzaList(filters[pizzatype].isSuitable);
+                    });
+                    $range_nav.append($node);
+                }
+                $range_nav.find('#' + PizzaFilters.All.pizzatype).addClass('active');
+                showPizzaList(PizzaFilters.All.isSuitable);
             });
-            $range_nav.append($node);
         }
-        $range_nav.find('#' + PizzaFilters.All.pizzatype).addClass('active');
-        showPizzaList(PizzaFilters.All.isSuitable);
-    });
-}
 
-exports.initialiseMenu = initialiseMenu;
-    }, {"../Templates": 1, "../ajax": 2, "./PizzaCart": 4, "./PizzaFilters": 5, "./Pizza_Size": 7}],
+        exports.initialiseMenu = initialiseMenu;
+    }, {"../Templates": 1, "../ajax": 2, "./PizzaCart": 3, "./PizzaFilters": 4, "./Pizza_Size": 6}],
+    6: [function (require, module, exports) {
+        var PizzaSize = {
+            Big: "big_size",
+            Small: "small_size",
+            ua_name: {
+                "big_size": "Велика",
+                "small_size": "Мала"
+            }
+        };
+
+        module.exports = PizzaSize;
+    }, {}],
     7: [function (require, module, exports) {
-var PizzaSize = {
-    Big: "big_size",
-    Small: "small_size",
-    ua_name: {
-        "big_size": "Велика",
-        "small_size": "Мала"
-    }
-};
+        /**
+         * Created by chaika on 25.01.16.
+         */
 
-module.exports = PizzaSize;
-},{}],8:[function(require,module,exports){
+        $(function () {
+            var PizzaMenu = require('./pizza/PizzaMenu');
+            var PizzaCart = require('./pizza/PizzaCart');
+
+            PizzaCart.initialiseCart();
+            PizzaMenu.initialiseMenu();
+        });
+    }, {"./pizza/PizzaCart": 3, "./pizza/PizzaMenu": 5}],
+    8: [function (require, module, exports) {
 
     }, {}],
     9: [function (require, module, exports) {
-/*
- * EJS Embedded JavaScript templates
- * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
-*/
+        /*
+         * EJS Embedded JavaScript templates
+         * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *         http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         *
+        */
 
         'use strict';
 
@@ -353,22 +377,22 @@ module.exports = PizzaSize;
          */
 
         var fs = require('fs');
-var path = require('path');
-var utils = require('./utils');
+        var path = require('path');
+        var utils = require('./utils');
 
         var scopeOptionWarned = false;
-var _VERSION_STRING = require('../package.json').version;
-var _DEFAULT_DELIMITER = '%';
-var _DEFAULT_LOCALS_NAME = 'locals';
-var _NAME = 'ejs';
-var _REGEX_STRING = '(<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)';
-var _OPTS = ['delimiter', 'scope', 'context', 'debug', 'compileDebug',
-    'client', '_with', 'rmWhitespace', 'strict', 'filename'];
+        var _VERSION_STRING = require('../package.json').version;
+        var _DEFAULT_DELIMITER = '%';
+        var _DEFAULT_LOCALS_NAME = 'locals';
+        var _NAME = 'ejs';
+        var _REGEX_STRING = '(<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)';
+        var _OPTS = ['delimiter', 'scope', 'context', 'debug', 'compileDebug',
+            'client', '_with', 'rmWhitespace', 'strict', 'filename'];
 // We don't allow 'cache' option to be passed in the data obj
 // for the normal `render` call, but this is where Express puts it
 // so we make an exception for `renderFile`
-var _OPTS_EXPRESS = _OPTS.concat('cache');
-var _BOM = /^\uFEFF/;
+        var _OPTS_EXPRESS = _OPTS.concat('cache');
+        var _BOM = /^\uFEFF/;
 
         /**
          * EJS template function cache. This can be a LRU object from lru-cache NPM
@@ -410,17 +434,17 @@ var _BOM = /^\uFEFF/;
          * @param {Boolean} isDir    parent file path whether is directory
          * @return {String}
          */
-exports.resolveInclude = function(name, filename, isDir) {
-    var dirname = path.dirname;
-    var extname = path.extname;
-    var resolve = path.resolve;
-    var includePath = resolve(isDir ? filename : dirname(filename), name);
-    var ext = extname(name);
-    if (!ext) {
-        includePath += '.ejs';
-    }
-    return includePath;
-};
+        exports.resolveInclude = function (name, filename, isDir) {
+            var dirname = path.dirname;
+            var extname = path.extname;
+            var resolve = path.resolve;
+            var includePath = resolve(isDir ? filename : dirname(filename), name);
+            var ext = extname(name);
+            if (!ext) {
+                includePath += '.ejs';
+            }
+            return includePath;
+        };
 
         /**
          * Get the path to the included file by Options
@@ -429,7 +453,7 @@ exports.resolveInclude = function(name, filename, isDir) {
          * @param  {Options} options compilation options
          * @return {String}
          */
-function getIncludePath(path, options) {
+        function getIncludePath(path, options) {
             var includePath;
             var filePath;
             var views = options.views;
@@ -1120,7 +1144,7 @@ function getIncludePath(path, options) {
          * @public
          * @func
          * */
-exports.escapeXML = utils.escapeXML;
+        exports.escapeXML = utils.escapeXML;
 
         /**
          * Express.js support.
@@ -1134,19 +1158,19 @@ exports.escapeXML = utils.escapeXML;
         exports.__express = exports.renderFile;
 
 // Add require support
-/* istanbul ignore else */
-if (require.extensions) {
-    require.extensions['.ejs'] = function (module, flnm) {
-        var filename = flnm || /* istanbul ignore next */ module.filename;
-        var options = {
-            filename: filename,
-            client: true
-        };
-        var template = fileLoader(filename).toString();
-        var fn = exports.compile(template, options);
-        module._compile('module.exports = ' + fn.toString() + ';', filename);
-    };
-}
+        /* istanbul ignore else */
+        if (require.extensions) {
+            require.extensions['.ejs'] = function (module, flnm) {
+                var filename = flnm || /* istanbul ignore next */ module.filename;
+                var options = {
+                    filename: filename,
+                    client: true
+                };
+                var template = fileLoader(filename).toString();
+                var fn = exports.compile(template, options);
+                module._compile('module.exports = ' + fn.toString() + ';', filename);
+            };
+        }
 
         /**
          * Version of EJS.
@@ -1169,288 +1193,288 @@ if (require.extensions) {
         exports.name = _NAME;
 
         /* istanbul ignore if */
-if (typeof window != 'undefined') {
-    window.ejs = exports;
-}
+        if (typeof window != 'undefined') {
+            window.ejs = exports;
+        }
 
     }, {"../package.json": 11, "./utils": 10, "fs": 8, "path": 12}],
     10: [function (require, module, exports) {
-/*
- * EJS Embedded JavaScript templates
- * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
-*/
+        /*
+         * EJS Embedded JavaScript templates
+         * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *         http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         *
+        */
 
-/**
- * Private utility functions
- * @module utils
- * @private
- */
+        /**
+         * Private utility functions
+         * @module utils
+         * @private
+         */
 
-'use strict';
+        'use strict';
 
-var regExpChars = /[|\\{}()[\]^$+*?.]/g;
+        var regExpChars = /[|\\{}()[\]^$+*?.]/g;
 
-/**
- * Escape characters reserved in regular expressions.
- *
- * If `string` is `undefined` or `null`, the empty string is returned.
- *
- * @param {String} string Input string
- * @return {String} Escaped string
- * @static
- * @private
- */
-exports.escapeRegExpChars = function (string) {
-  // istanbul ignore if
-  if (!string) {
-    return '';
-  }
-  return String(string).replace(regExpChars, '\\$&');
-};
+        /**
+         * Escape characters reserved in regular expressions.
+         *
+         * If `string` is `undefined` or `null`, the empty string is returned.
+         *
+         * @param {String} string Input string
+         * @return {String} Escaped string
+         * @static
+         * @private
+         */
+        exports.escapeRegExpChars = function (string) {
+            // istanbul ignore if
+            if (!string) {
+                return '';
+            }
+            return String(string).replace(regExpChars, '\\$&');
+        };
 
-var _ENCODE_HTML_RULES = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&#34;',
-  "'": '&#39;'
-};
-var _MATCH_HTML = /[&<>\'"]/g;
+        var _ENCODE_HTML_RULES = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&#34;',
+            "'": '&#39;'
+        };
+        var _MATCH_HTML = /[&<>\'"]/g;
 
-function encode_char(c) {
-  return _ENCODE_HTML_RULES[c] || c;
-}
+        function encode_char(c) {
+            return _ENCODE_HTML_RULES[c] || c;
+        }
 
-/**
- * Stringified version of constants used by {@link module:utils.escapeXML}.
- *
- * It is used in the process of generating {@link ClientFunction}s.
- *
- * @readonly
- * @type {String}
- */
+        /**
+         * Stringified version of constants used by {@link module:utils.escapeXML}.
+         *
+         * It is used in the process of generating {@link ClientFunction}s.
+         *
+         * @readonly
+         * @type {String}
+         */
 
-var escapeFuncStr =
-  'var _ENCODE_HTML_RULES = {\n'
-+ '      "&": "&amp;"\n'
-+ '    , "<": "&lt;"\n'
-+ '    , ">": "&gt;"\n'
-+ '    , \'"\': "&#34;"\n'
-+ '    , "\'": "&#39;"\n'
-+ '    }\n'
-+ '  , _MATCH_HTML = /[&<>\'"]/g;\n'
-+ 'function encode_char(c) {\n'
-+ '  return _ENCODE_HTML_RULES[c] || c;\n'
-+ '};\n';
+        var escapeFuncStr =
+            'var _ENCODE_HTML_RULES = {\n'
+            + '      "&": "&amp;"\n'
+            + '    , "<": "&lt;"\n'
+            + '    , ">": "&gt;"\n'
+            + '    , \'"\': "&#34;"\n'
+            + '    , "\'": "&#39;"\n'
+            + '    }\n'
+            + '  , _MATCH_HTML = /[&<>\'"]/g;\n'
+            + 'function encode_char(c) {\n'
+            + '  return _ENCODE_HTML_RULES[c] || c;\n'
+            + '};\n';
 
-/**
- * Escape characters reserved in XML.
- *
- * If `markup` is `undefined` or `null`, the empty string is returned.
- *
- * @implements {EscapeCallback}
- * @param {String} markup Input string
- * @return {String} Escaped string
- * @static
- * @private
- */
+        /**
+         * Escape characters reserved in XML.
+         *
+         * If `markup` is `undefined` or `null`, the empty string is returned.
+         *
+         * @implements {EscapeCallback}
+         * @param {String} markup Input string
+         * @return {String} Escaped string
+         * @static
+         * @private
+         */
 
-exports.escapeXML = function (markup) {
-  return markup == undefined
-    ? ''
-    : String(markup)
-        .replace(_MATCH_HTML, encode_char);
-};
-exports.escapeXML.toString = function () {
-  return Function.prototype.toString.call(this) + ';\n' + escapeFuncStr;
-};
+        exports.escapeXML = function (markup) {
+            return markup == undefined
+                ? ''
+                : String(markup)
+                    .replace(_MATCH_HTML, encode_char);
+        };
+        exports.escapeXML.toString = function () {
+            return Function.prototype.toString.call(this) + ';\n' + escapeFuncStr;
+        };
 
-/**
- * Naive copy of properties from one object to another.
- * Does not recurse into non-scalar properties
- * Does not check to see if the property has a value before copying
- *
- * @param  {Object} to   Destination object
- * @param  {Object} from Source object
- * @return {Object}      Destination object
- * @static
- * @private
- */
-exports.shallowCopy = function (to, from) {
-  from = from || {};
-  for (var p in from) {
-    to[p] = from[p];
-  }
-  return to;
-};
+        /**
+         * Naive copy of properties from one object to another.
+         * Does not recurse into non-scalar properties
+         * Does not check to see if the property has a value before copying
+         *
+         * @param  {Object} to   Destination object
+         * @param  {Object} from Source object
+         * @return {Object}      Destination object
+         * @static
+         * @private
+         */
+        exports.shallowCopy = function (to, from) {
+            from = from || {};
+            for (var p in from) {
+                to[p] = from[p];
+            }
+            return to;
+        };
 
-/**
- * Naive copy of a list of key names, from one object to another.
- * Only copies property if it is actually defined
- * Does not recurse into non-scalar properties
- *
- * @param  {Object} to   Destination object
- * @param  {Object} from Source object
- * @param  {Array} list List of properties to copy
- * @return {Object}      Destination object
- * @static
- * @private
- */
-exports.shallowCopyFromList = function (to, from, list) {
-  for (var i = 0; i < list.length; i++) {
-    var p = list[i];
-    if (typeof from[p] != 'undefined') {
-      to[p] = from[p];
-    }
-  }
-  return to;
-};
+        /**
+         * Naive copy of a list of key names, from one object to another.
+         * Only copies property if it is actually defined
+         * Does not recurse into non-scalar properties
+         *
+         * @param  {Object} to   Destination object
+         * @param  {Object} from Source object
+         * @param  {Array} list List of properties to copy
+         * @return {Object}      Destination object
+         * @static
+         * @private
+         */
+        exports.shallowCopyFromList = function (to, from, list) {
+            for (var i = 0; i < list.length; i++) {
+                var p = list[i];
+                if (typeof from[p] != 'undefined') {
+                    to[p] = from[p];
+                }
+            }
+            return to;
+        };
 
-/**
- * Simple in-process cache implementation. Does not implement limits of any
- * sort.
- *
- * @implements Cache
- * @static
- * @private
- */
-exports.cache = {
-  _data: {},
-  set: function (key, val) {
-    this._data[key] = val;
-  },
-  get: function (key) {
-    return this._data[key];
-  },
-  reset: function () {
-    this._data = {};
-  }
-};
+        /**
+         * Simple in-process cache implementation. Does not implement limits of any
+         * sort.
+         *
+         * @implements Cache
+         * @static
+         * @private
+         */
+        exports.cache = {
+            _data: {},
+            set: function (key, val) {
+                this._data[key] = val;
+            },
+            get: function (key) {
+                return this._data[key];
+            },
+            reset: function () {
+                this._data = {};
+            }
+        };
 
     }, {}],
     11: [function (require, module, exports) {
-module.exports={
-  "_args": [
-    [
-      "ejs@^2.4.1",
-      "/home/soll_nevermind/WebstormProjects/JS-Pizza"
-    ]
-  ],
-  "_from": "ejs@>=2.4.1 <3.0.0",
-  "_id": "ejs@2.5.7",
-  "_inCache": true,
-  "_installable": true,
-  "_location": "/ejs",
-  "_nodeVersion": "6.9.1",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/ejs-2.5.7.tgz_1501385411193_0.3807816591579467"
-  },
-  "_npmUser": {
-    "email": "mde@fleegix.org",
-    "name": "mde"
-  },
-  "_npmVersion": "3.10.8",
-  "_phantomChildren": {},
-  "_requested": {
-    "name": "ejs",
-    "raw": "ejs@^2.4.1",
-    "rawSpec": "^2.4.1",
-    "scope": null,
-    "spec": ">=2.4.1 <3.0.0",
-    "type": "range"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
-  "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
-  "_shrinkwrap": null,
-  "_spec": "ejs@^2.4.1",
-  "_where": "/home/soll_nevermind/WebstormProjects/JS-Pizza",
-  "author": {
-    "email": "mde@fleegix.org",
-    "name": "Matthew Eernisse",
-    "url": "http://fleegix.org"
-  },
-  "bugs": {
-    "url": "https://github.com/mde/ejs/issues"
-  },
-  "contributors": [
-    {
-      "name": "Timothy Gu",
-      "email": "timothygu99@gmail.com",
-      "url": "https://timothygu.github.io"
-    }
-  ],
-  "dependencies": {},
-  "description": "Embedded JavaScript templates",
-  "devDependencies": {
-    "browserify": "^13.0.1",
-    "eslint": "^3.0.0",
-    "git-directory-deploy": "^1.5.1",
-    "istanbul": "~0.4.3",
-    "jake": "^8.0.0",
-    "jsdoc": "^3.4.0",
-    "lru-cache": "^4.0.1",
-    "mocha": "^3.0.2",
-    "uglify-js": "^2.6.2"
-  },
-  "directories": {},
-  "dist": {
-    "shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
-    "tarball": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "homepage": "https://github.com/mde/ejs",
-  "keywords": [
-    "ejs",
-    "engine",
-    "template"
-  ],
-  "license": "Apache-2.0",
-  "main": "./lib/ejs.js",
-  "maintainers": [
-    {
-      "name": "mde",
-      "email": "mde@fleegix.org"
-    }
-  ],
-  "name": "ejs",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mde/ejs.git"
-  },
-  "scripts": {
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
-    "devdoc": "jake doc[dev]",
-    "doc": "jake doc",
-    "lint": "eslint \"**/*.js\" Jakefile",
-    "test": "jake test"
-  },
-  "version": "2.5.7"
-}
+        module.exports = {
+            "_args": [
+                [
+                    "ejs@^2.4.1",
+                    "/home/soll_nevermind/WebstormProjects/JS-Pizza"
+                ]
+            ],
+            "_from": "ejs@>=2.4.1 <3.0.0",
+            "_id": "ejs@2.5.7",
+            "_inCache": true,
+            "_installable": true,
+            "_location": "/ejs",
+            "_nodeVersion": "6.9.1",
+            "_npmOperationalInternal": {
+                "host": "s3://npm-registry-packages",
+                "tmp": "tmp/ejs-2.5.7.tgz_1501385411193_0.3807816591579467"
+            },
+            "_npmUser": {
+                "email": "mde@fleegix.org",
+                "name": "mde"
+            },
+            "_npmVersion": "3.10.8",
+            "_phantomChildren": {},
+            "_requested": {
+                "name": "ejs",
+                "raw": "ejs@^2.4.1",
+                "rawSpec": "^2.4.1",
+                "scope": null,
+                "spec": ">=2.4.1 <3.0.0",
+                "type": "range"
+            },
+            "_requiredBy": [
+                "/"
+            ],
+            "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
+            "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
+            "_shrinkwrap": null,
+            "_spec": "ejs@^2.4.1",
+            "_where": "/home/soll_nevermind/WebstormProjects/JS-Pizza",
+            "author": {
+                "email": "mde@fleegix.org",
+                "name": "Matthew Eernisse",
+                "url": "http://fleegix.org"
+            },
+            "bugs": {
+                "url": "https://github.com/mde/ejs/issues"
+            },
+            "contributors": [
+                {
+                    "name": "Timothy Gu",
+                    "email": "timothygu99@gmail.com",
+                    "url": "https://timothygu.github.io"
+                }
+            ],
+            "dependencies": {},
+            "description": "Embedded JavaScript templates",
+            "devDependencies": {
+                "browserify": "^13.0.1",
+                "eslint": "^3.0.0",
+                "git-directory-deploy": "^1.5.1",
+                "istanbul": "~0.4.3",
+                "jake": "^8.0.0",
+                "jsdoc": "^3.4.0",
+                "lru-cache": "^4.0.1",
+                "mocha": "^3.0.2",
+                "uglify-js": "^2.6.2"
+            },
+            "directories": {},
+            "dist": {
+                "shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
+                "tarball": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz"
+            },
+            "engines": {
+                "node": ">=0.10.0"
+            },
+            "homepage": "https://github.com/mde/ejs",
+            "keywords": [
+                "ejs",
+                "engine",
+                "template"
+            ],
+            "license": "Apache-2.0",
+            "main": "./lib/ejs.js",
+            "maintainers": [
+                {
+                    "name": "mde",
+                    "email": "mde@fleegix.org"
+                }
+            ],
+            "name": "ejs",
+            "optionalDependencies": {},
+            "readme": "ERROR: No README data found!",
+            "repository": {
+                "type": "git",
+                "url": "git://github.com/mde/ejs.git"
+            },
+            "scripts": {
+                "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
+                "devdoc": "jake doc[dev]",
+                "doc": "jake doc",
+                "lint": "eslint \"**/*.js\" Jakefile",
+                "test": "jake test"
+            },
+            "version": "2.5.7"
+        }
 
     }, {}],
     12: [function (require, module, exports) {
-(function (process){
+        (function (process) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1476,392 +1500,407 @@ module.exports={
 // must be no slashes, empty elements, or device names (c:\) in the array
 // (so also no leading and trailing slashes - it does not distinguish
 // relative and absolute paths)
-function normalizeArray(parts, allowAboveRoot) {
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var last = parts[i];
-    if (last === '.') {
-      parts.splice(i, 1);
-    } else if (last === '..') {
-      parts.splice(i, 1);
-      up++;
-    } else if (up) {
-      parts.splice(i, 1);
-      up--;
-    }
-  }
+            function normalizeArray(parts, allowAboveRoot) {
+                // if the path tries to go above the root, `up` ends up > 0
+                var up = 0;
+                for (var i = parts.length - 1; i >= 0; i--) {
+                    var last = parts[i];
+                    if (last === '.') {
+                        parts.splice(i, 1);
+                    } else if (last === '..') {
+                        parts.splice(i, 1);
+                        up++;
+                    } else if (up) {
+                        parts.splice(i, 1);
+                        up--;
+                    }
+                }
 
-  // if the path is allowed to go above the root, restore leading ..s
-  if (allowAboveRoot) {
-    for (; up--; up) {
-      parts.unshift('..');
-    }
-  }
+                // if the path is allowed to go above the root, restore leading ..s
+                if (allowAboveRoot) {
+                    for (; up--; up) {
+                        parts.unshift('..');
+                    }
+                }
 
-  return parts;
-}
+                return parts;
+            }
 
 // Split a filename into [root, dir, basename, ext], unix version
 // 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var splitPath = function(filename) {
-  return splitPathRe.exec(filename).slice(1);
-};
+            var splitPathRe =
+                /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+            var splitPath = function (filename) {
+                return splitPathRe.exec(filename).slice(1);
+            };
 
 // path.resolve([from ...], to)
 // posix version
-exports.resolve = function() {
-  var resolvedPath = '',
-      resolvedAbsolute = false;
+            exports.resolve = function () {
+                var resolvedPath = '',
+                    resolvedAbsolute = false;
 
-  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-    var path = (i >= 0) ? arguments[i] : process.cwd();
+                for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+                    var path = (i >= 0) ? arguments[i] : process.cwd();
 
-    // Skip empty and invalid entries
-    if (typeof path !== 'string') {
-      throw new TypeError('Arguments to path.resolve must be strings');
-    } else if (!path) {
-      continue;
-    }
+                    // Skip empty and invalid entries
+                    if (typeof path !== 'string') {
+                        throw new TypeError('Arguments to path.resolve must be strings');
+                    } else if (!path) {
+                        continue;
+                    }
 
-    resolvedPath = path + '/' + resolvedPath;
-    resolvedAbsolute = path.charAt(0) === '/';
-  }
+                    resolvedPath = path + '/' + resolvedPath;
+                    resolvedAbsolute = path.charAt(0) === '/';
+                }
 
-  // At this point the path should be resolved to a full absolute path, but
-  // handle relative paths to be safe (might happen when process.cwd() fails)
+                // At this point the path should be resolved to a full absolute path, but
+                // handle relative paths to be safe (might happen when process.cwd() fails)
 
-  // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-    return !!p;
-  }), !resolvedAbsolute).join('/');
+                // Normalize the path
+                resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function (p) {
+                    return !!p;
+                }), !resolvedAbsolute).join('/');
 
-  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-};
+                return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+            };
 
 // path.normalize(path)
 // posix version
-exports.normalize = function(path) {
-  var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
+            exports.normalize = function (path) {
+                var isAbsolute = exports.isAbsolute(path),
+                    trailingSlash = substr(path, -1) === '/';
 
-  // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
-    return !!p;
-  }), !isAbsolute).join('/');
+                // Normalize the path
+                path = normalizeArray(filter(path.split('/'), function (p) {
+                    return !!p;
+                }), !isAbsolute).join('/');
 
-  if (!path && !isAbsolute) {
-    path = '.';
-  }
-  if (path && trailingSlash) {
-    path += '/';
-  }
+                if (!path && !isAbsolute) {
+                    path = '.';
+                }
+                if (path && trailingSlash) {
+                    path += '/';
+                }
 
-  return (isAbsolute ? '/' : '') + path;
-};
-
-// posix version
-exports.isAbsolute = function(path) {
-  return path.charAt(0) === '/';
-};
+                return (isAbsolute ? '/' : '') + path;
+            };
 
 // posix version
-exports.join = function() {
-  var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
-      throw new TypeError('Arguments to path.join must be strings');
-    }
-    return p;
-  }).join('/'));
-};
+            exports.isAbsolute = function (path) {
+                return path.charAt(0) === '/';
+            };
+
+// posix version
+            exports.join = function () {
+                var paths = Array.prototype.slice.call(arguments, 0);
+                return exports.normalize(filter(paths, function (p, index) {
+                    if (typeof p !== 'string') {
+                        throw new TypeError('Arguments to path.join must be strings');
+                    }
+                    return p;
+                }).join('/'));
+            };
 
 
 // path.relative(from, to)
 // posix version
-exports.relative = function(from, to) {
-  from = exports.resolve(from).substr(1);
-  to = exports.resolve(to).substr(1);
+            exports.relative = function (from, to) {
+                from = exports.resolve(from).substr(1);
+                to = exports.resolve(to).substr(1);
 
-  function trim(arr) {
-    var start = 0;
-    for (; start < arr.length; start++) {
-      if (arr[start] !== '') break;
-    }
+                function trim(arr) {
+                    var start = 0;
+                    for (; start < arr.length; start++) {
+                        if (arr[start] !== '') break;
+                    }
 
-    var end = arr.length - 1;
-    for (; end >= 0; end--) {
-      if (arr[end] !== '') break;
-    }
+                    var end = arr.length - 1;
+                    for (; end >= 0; end--) {
+                        if (arr[end] !== '') break;
+                    }
 
-    if (start > end) return [];
-    return arr.slice(start, end - start + 1);
-  }
+                    if (start > end) return [];
+                    return arr.slice(start, end - start + 1);
+                }
 
-  var fromParts = trim(from.split('/'));
-  var toParts = trim(to.split('/'));
+                var fromParts = trim(from.split('/'));
+                var toParts = trim(to.split('/'));
 
-  var length = Math.min(fromParts.length, toParts.length);
-  var samePartsLength = length;
-  for (var i = 0; i < length; i++) {
-    if (fromParts[i] !== toParts[i]) {
-      samePartsLength = i;
-      break;
-    }
-  }
+                var length = Math.min(fromParts.length, toParts.length);
+                var samePartsLength = length;
+                for (var i = 0; i < length; i++) {
+                    if (fromParts[i] !== toParts[i]) {
+                        samePartsLength = i;
+                        break;
+                    }
+                }
 
-  var outputParts = [];
-  for (var i = samePartsLength; i < fromParts.length; i++) {
-    outputParts.push('..');
-  }
+                var outputParts = [];
+                for (var i = samePartsLength; i < fromParts.length; i++) {
+                    outputParts.push('..');
+                }
 
-  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+                outputParts = outputParts.concat(toParts.slice(samePartsLength));
 
-  return outputParts.join('/');
-};
+                return outputParts.join('/');
+            };
 
-exports.sep = '/';
-exports.delimiter = ':';
+            exports.sep = '/';
+            exports.delimiter = ':';
 
-exports.dirname = function(path) {
-  var result = splitPath(path),
-      root = result[0],
-      dir = result[1];
+            exports.dirname = function (path) {
+                var result = splitPath(path),
+                    root = result[0],
+                    dir = result[1];
 
-  if (!root && !dir) {
-    // No dirname whatsoever
-    return '.';
-  }
+                if (!root && !dir) {
+                    // No dirname whatsoever
+                    return '.';
+                }
 
-  if (dir) {
-    // It has a dirname, strip trailing slash
-    dir = dir.substr(0, dir.length - 1);
-  }
+                if (dir) {
+                    // It has a dirname, strip trailing slash
+                    dir = dir.substr(0, dir.length - 1);
+                }
 
-  return root + dir;
-};
-
-
-exports.basename = function(path, ext) {
-  var f = splitPath(path)[2];
-  // TODO: make this comparison case-insensitive on windows?
-  if (ext && f.substr(-1 * ext.length) === ext) {
-    f = f.substr(0, f.length - ext.length);
-  }
-  return f;
-};
+                return root + dir;
+            };
 
 
-exports.extname = function(path) {
-  return splitPath(path)[3];
-};
+            exports.basename = function (path, ext) {
+                var f = splitPath(path)[2];
+                // TODO: make this comparison case-insensitive on windows?
+                if (ext && f.substr(-1 * ext.length) === ext) {
+                    f = f.substr(0, f.length - ext.length);
+                }
+                return f;
+            };
 
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
+
+            exports.extname = function (path) {
+                return splitPath(path)[3];
+            };
+
+            function filter(xs, f) {
+                if (xs.filter) return xs.filter(f);
+                var res = [];
+                for (var i = 0; i < xs.length; i++) {
+                    if (f(xs[i], i, xs)) res.push(xs[i]);
+                }
+                return res;
+            }
 
 // String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
+            var substr = 'ab'.substr(-1) === 'b'
+                ? function (str, start, len) {
+                    return str.substr(start, len)
+                }
+                : function (str, start, len) {
+                    if (start < 0) start = str.length + start;
+                    return str.substr(start, len);
+                }
+            ;
 
-}).call(this,require('_process'))
+        }).call(this, require('_process'))
     }, {"_process": 13}],
     13: [function (require, module, exports) {
 // shim for using process in browser
-var process = module.exports = {};
+        var process = module.exports = {};
 
 // cached from whatever global is present so that test runners that stub it
 // don't break things.  But we need to wrap it in a try catch in case it is
 // wrapped in strict mode code which doesn't define any globals.  It's inside a
 // function because try/catches deoptimize in certain engines.
 
-var cachedSetTimeout;
-var cachedClearTimeout;
+        var cachedSetTimeout;
+        var cachedClearTimeout;
 
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
+        function defaultSetTimout() {
+            throw new Error('setTimeout has not been defined');
         }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
+
+        function defaultClearTimeout() {
+            throw new Error('clearTimeout has not been defined');
         }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
+
+        (function () {
+            try {
+                if (typeof setTimeout === 'function') {
+                    cachedSetTimeout = setTimeout;
+                } else {
+                    cachedSetTimeout = defaultSetTimout;
+                }
+            } catch (e) {
+                cachedSetTimeout = defaultSetTimout;
+            }
+            try {
+                if (typeof clearTimeout === 'function') {
+                    cachedClearTimeout = clearTimeout;
+                } else {
+                    cachedClearTimeout = defaultClearTimeout;
+                }
+            } catch (e) {
+                cachedClearTimeout = defaultClearTimeout;
+            }
+        }())
+
+        function runTimeout(fun) {
+            if (cachedSetTimeout === setTimeout) {
+                //normal enviroments in sane situations
+                return setTimeout(fun, 0);
+            }
+            // if setTimeout wasn't available but was latter defined
+            if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+                cachedSetTimeout = setTimeout;
+                return setTimeout(fun, 0);
+            }
+            try {
+                // when when somebody has screwed with setTimeout but no I.E. maddness
+                return cachedSetTimeout(fun, 0);
+            } catch (e) {
+                try {
+                    // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+                    return cachedSetTimeout.call(null, fun, 0);
+                } catch (e) {
+                    // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+                    return cachedSetTimeout.call(this, fun, 0);
+                }
+            }
+
+
         }
-    }
+
+        function runClearTimeout(marker) {
+            if (cachedClearTimeout === clearTimeout) {
+                //normal enviroments in sane situations
+                return clearTimeout(marker);
+            }
+            // if clearTimeout wasn't available but was latter defined
+            if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+                cachedClearTimeout = clearTimeout;
+                return clearTimeout(marker);
+            }
+            try {
+                // when when somebody has screwed with setTimeout but no I.E. maddness
+                return cachedClearTimeout(marker);
+            } catch (e) {
+                try {
+                    // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+                    return cachedClearTimeout.call(null, marker);
+                } catch (e) {
+                    // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+                    // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+                    return cachedClearTimeout.call(this, marker);
+                }
+            }
 
 
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
         }
-    }
 
+        var queue = [];
+        var draining = false;
+        var currentQueue;
+        var queueIndex = -1;
 
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
+        function cleanUpNextTick() {
+            if (!draining || !currentQueue) {
+                return;
+            }
+            draining = false;
+            if (currentQueue.length) {
+                queue = currentQueue.concat(queue);
+            } else {
+                queueIndex = -1;
+            }
+            if (queue.length) {
+                drainQueue();
             }
         }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
+        function drainQueue() {
+            if (draining) {
+                return;
+            }
+            var timeout = runTimeout(cleanUpNextTick);
+            draining = true;
+
+            var len = queue.length;
+            while (len) {
+                currentQueue = queue;
+                queue = [];
+                while (++queueIndex < len) {
+                    if (currentQueue) {
+                        currentQueue[queueIndex].run();
+                    }
+                }
+                queueIndex = -1;
+                len = queue.length;
+            }
+            currentQueue = null;
+            draining = false;
+            runClearTimeout(timeout);
         }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
+
+        process.nextTick = function (fun) {
+            var args = new Array(arguments.length - 1);
+            if (arguments.length > 1) {
+                for (var i = 1; i < arguments.length; i++) {
+                    args[i - 1] = arguments[i];
+                }
+            }
+            queue.push(new Item(fun, args));
+            if (queue.length === 1 && !draining) {
+                runTimeout(drainQueue);
+            }
+        };
 
 // v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
+        function Item(fun, array) {
+            this.fun = fun;
+            this.array = array;
+        }
 
-function noop() {}
+        Item.prototype.run = function () {
+            this.fun.apply(null, this.array);
+        };
+        process.title = 'browser';
+        process.browser = true;
+        process.env = {};
+        process.argv = [];
+        process.version = ''; // empty string to avoid regexp issues
+        process.versions = {};
 
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
+        function noop() {
+        }
 
-process.listeners = function (name) { return [] }
+        process.on = noop;
+        process.addListener = noop;
+        process.once = noop;
+        process.off = noop;
+        process.removeListener = noop;
+        process.removeAllListeners = noop;
+        process.emit = noop;
+        process.prependListener = noop;
+        process.prependOnceListener = noop;
 
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
+        process.listeners = function (name) {
+            return []
+        }
 
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
+        process.binding = function (name) {
+            throw new Error('process.binding is not supported');
+        };
 
-},{}]},{},[3]);
+        process.cwd = function () {
+            return '/'
+        };
+        process.chdir = function (dir) {
+            throw new Error('process.chdir is not supported');
+        };
+        process.umask = function () {
+            return 0;
+        };
+
+    }, {}]
+}, {}, [7]);

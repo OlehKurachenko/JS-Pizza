@@ -23,20 +23,26 @@ module.exports = function(grunt) {
             },
 
             //Збірка з назвою піца
-            pizza: {
-                src:        'Frontend/src/main.js',
-                dest:       'Frontend/www/assets/js/main.js'
+            rangePage: {
+                src: 'Frontend/src/rangePage.js',
+                dest: 'Frontend/www/assets/js/rangePage.js'
+            },
+            orderPage: {
+                src: 'Frontend/src/orderPage.js',
+                dest: 'Frontend/www/assets/js/orderPage.js'
             }
         },
         less: {
             development: {
                 options: {
-                    compress: !true,
-                    yuicompress: !true//,
-                    //optimization: 2
+                    compress: true,
+                    yuicompress: true,
+                    optimization: 2
                 },
                 files: {
-                    "Frontend/www/assets/css/mainPage.css": "Frontend/www/assets/less/mainPage.less"
+                    "Frontend/www/assets/css/common.css": "Frontend/www/assets/less/common.less",
+                    "Frontend/www/assets/css/mainPage.css": "Frontend/www/assets/less/mainPage.less",
+                    "Frontend/www/assets/css/orderPage.css": "Frontend/www/assets/less/orderPage.less"
                 }
             }
         }
@@ -61,17 +67,14 @@ module.exports = function(grunt) {
     config.watch = watchDebug;
     grunt.initConfig(config);
 
-    //Сказати які модулі необхідно виокристовувати
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-
-    //Список завданнь по замовчування
     grunt.registerTask('default',
         [
-            'browserify:pizza',
+            'browserify:rangePage',
+            'browserify:orderPage',
             'less'
-            //Інші завдання які необхідно виконати
         ]
     );
 

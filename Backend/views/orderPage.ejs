@@ -1,12 +1,12 @@
-<%- include('common/header', {cssArray: ['mainPage.css']}) %>
+<%- include('common/header', {cssArray: ['common.css', 'orderPage.css'], pageTitle: 'Замовлення'}) %>
 
 <div id="main" class="container-fluid">
     <div id="range" class="container">
-        <%- include('range/range_range') %>
+        <%- include('order/order_range') %>
     </div>
     <div id="cart">
-        <%- include('range/range_cart') %>
+        <%- include('order/order_cart') %>
     </div>
 </div>
 
-<%- include('common/footer') %>
+<%- include('common/footer', {jsFileName: "orderPage.js"}) %>
