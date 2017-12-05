@@ -7,18 +7,24 @@
                 <label class="col-sm-2 control-label" for="name-orderer">Ім'я</label>
                 <div class="col-sm-10">
                     <input id="name-orderer" type="text" class="form-control" placeholder="Ваше ім'я">
+                    <div id="wrong-input-name" class="wrong-input" style="display: none">Ім'я може містити лише літери
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 control-label" for="name-orderer">Телефон</label>
+                <label class="col-sm-2 control-label" for="tel-orderer">Телефон</label>
                 <div class="col-sm-10">
-                    <input id="tle-orderer" type="tel" class="form-control" placeholder="+380441488844">
+                    <input id="tel-orderer" type="tel" class="form-control" placeholder="+380441488844">
+                    <div id="wrong-input-tel" class="wrong-input" style="display: none">Введіть номер починаючи з +380
+                        або 0
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 control-label" for="addr-orderer">Адреса</label>
                 <div class="col-sm-10">
                     <input id="addr-orderer" type="text" class="form-control" placeholder="Київ, вул. Спаська, 2">
+                    <div id="wrong-input-addr" class="wrong-input" style="display: none">Введіть корретну адерсу</div>
                 </div>
             </div>
         </div>
@@ -35,7 +41,7 @@
         </div>
     </div>
     <div class="col-xs-12">
-        <a id="button-forvard" class="btn btn-warning" style="float: right">Далі <span
+        <a id="button-forvard" class="btn btn-warning" style="float: right; margin-top: 20px">Далі <span
                     class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
     </div>
     <div class="col-xs-12" style="height: 20px;"></div>

@@ -29,7 +29,7 @@ function ajaxPost(req_url, req_data, success_function, error_function) {
             if (error_function)
                 error_function();
             else
-                console.log("AJAX failed while trying to load GET url = \"" + url + req_url);
+                console.log("AJAX failed while trying to load POST url = \"" + url + req_url);
         }
     });
 }

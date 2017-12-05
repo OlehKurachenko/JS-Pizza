@@ -53,3 +53,4 @@ function updateCart() {
 
 exports.getPizzaInCart = getPizzaInCart;
 exports.initialiseCart = initialiseCart;
+exports.clearCart = clearCart;

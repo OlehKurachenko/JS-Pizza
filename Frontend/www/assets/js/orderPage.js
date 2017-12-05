@@ -22,16 +22,58 @@
     return s
 })({
     1: [function (require, module, exports) {
+        var url = "http://localhost:5051/";
+
+        function ajaxGet(req_url, success_function, error_function) {
+            $.ajax({
+                url: url + req_url,
+                type: 'GET',
+                success: function (data) {
+                    success_function(data);
+                },
+                error: function () {
+                    if (error_function)
+                        error_function();
+                    else
+                        console.log("AJAX failed while trying to load GET url = \"" + url + req_url);
+                }
+            });
+        }
+
+        function ajaxPost(req_url, req_data, success_function, error_function) {
+            $.ajax({
+                url: url + req_url,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(req_data),
+                success: function (data) {
+                    success_function(data);
+                },
+                error: function () {
+                    if (error_function)
+                        error_function();
+                    else
+                        console.log("AJAX failed while trying to load POST url = \"" + url + req_url);
+        }
+            });
+        }
+
+        exports.url = url;
+        exports.get = ajaxGet;
+        exports.post = ajaxPost;
+    }, {}], 2: [function (require, module, exports) {
         /**
          * Created by chaika on 25.01.16.
          */
 
         $(function () {
             var PizzaCart = require('./pizza/order_PizzaCart');
+            var Range = require('./pizza/order_range');
 
             PizzaCart.initialiseCart();
+            Range.initialiseRange();
         });
-    }, {"./pizza/order_PizzaCart": 4}], 2: [function (require, module, exports) {
+    }, {"./pizza/order_PizzaCart": 5, "./pizza/order_range": 6}], 3: [function (require, module, exports) {
         /**
          * Created by chaika on 02.02.16.
          * Refactored according to task by soll_nevermind on 29.11.17
@@ -40,8 +82,8 @@
         var ejs = require('ejs');
 
         exports.PizzaCart_OneItem =
-            ejs.compile("<%\nfunction ua_numeric_ending(number) {\n    if (number > 10 && number < 20)\n        return '';\n    if (number % 10 == 1)\n        return 'a';\n    if (number % 10 > 1 && number < 5)\n        return 'и'\n    return '';\n}\n %>\n<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= item.pizza.title %> (<%= size_desc.ua_name[item.size] %>)<img src=\"<%= item.pizza.icon %>\"\n                                                                                            class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= item.pizza[item.size].size %></div>\n        <div class=\"weight-icon\"><%= item.pizza[item.size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= item.pizza[item.size].price %>грн</span>\n        <span class=\"ct-amount\"><%= item.quantity %> піц<%= ua_numeric_ending(item.quantity)%></span>\n    </div>\n</div>");
-    }, {"ejs": 6}], 3: [function (require, module, exports) {
+            ejs.compile("<%\nfunction ua_numeric_ending(number) {\n    if (number > 10 && number < 20)\n        return '';\n    if (number % 10 == 1)\n        return 'a';\n    if (number % 10 > 1 && number < 5)\n        return 'и'\n    return '';\n}\n%>\n<div class=\"ct-typeorder\">\n    <span class=\"ct-name\"><%= item.pizza.title %> (<%= size_desc.ua_name[item.size] %>)<img src=\"<%= item.pizza.icon %>\"\n                                                                                            class=\"ct-image\"></span>\n    <div class=\"ct-dimentions\">\n        <div class=\"diameter-icon\"><%= item.pizza[item.size].size %></div>\n        <div class=\"weight-icon\"><%= item.pizza[item.size].weight %></div>\n    </div>\n    <div class=\"ct-buttons\">\n        <span class=\"ct-price\"><%= item.pizza[item.size].price %>грн</span>\n        <span class=\"ct-amount\"><%= item.quantity %> піц<%= ua_numeric_ending(item.quantity) %></span>\n    </div>\n</div>");
+    }, {"ejs": 8}], 4: [function (require, module, exports) {
         var PizzaSize = {
             Big: "big_size",
             Small: "small_size",
@@ -52,7 +94,7 @@
         };
 
         module.exports = PizzaSize;
-    }, {}], 4: [function (require, module, exports) {
+    }, {}], 5: [function (require, module, exports) {
         /**
          * Created by chaika on 02.02.16.
          */
@@ -108,9 +150,77 @@
 
         exports.getPizzaInCart = getPizzaInCart;
         exports.initialiseCart = initialiseCart;
-    }, {"../order_Templates": 2, "./Pizza_Size": 3}], 5: [function (require, module, exports) {
+        exports.clearCart = clearCart;
+    }, {"../order_Templates": 3, "./Pizza_Size": 4}], 6: [function (require, module, exports) {
+        var PizzaCart = require('./order_PizzaCart');
+        var ajax_api = require('../ajax');
 
-    }, {}], 6: [function (require, module, exports) {
+        var name;
+        var tel;
+        var addr;
+
+        function isWord(nameStr) {
+            for (var i = 0; i < nameStr.length; ++i)
+                if (nameStr[i].toUpperCase() === nameStr[i].toLowerCase())
+                    return false;
+            return (!!nameStr);
+        }
+
+        function isUaMobileNumber(numberStr) {
+            if (numberStr.substr(0, 4) === '+380') {
+                return (numberStr.substr(3).length === 10 && /^\d+$/.test(numberStr.substr(3)));
+            } else {
+                return (numberStr[0] === '0' && numberStr.length === 10 && /^\d+$/.test(numberStr));
+            }
+        }
+
+        function initialiseRange() {
+            document.getElementById('name-orderer').onblur = function () {
+                var textValue = document.getElementById('name-orderer').value;
+                if (isWord(textValue)) {
+                    $('#name-orderer').css('border-color', 'chartreuse');
+                    $('#wrong-input-name').css('display', 'none');
+                    name = textValue;
+                } else {
+                    $('#name-orderer').css('border-color', 'red');
+                    $('#wrong-input-name').css('display', '');
+                }
+            };
+            document.getElementById('tel-orderer').onblur = function () {
+                var textValue = document.getElementById('tel-orderer').value;
+                if (isUaMobileNumber(textValue)) {
+                    $('#tel-orderer').css('border-color', 'chartreuse');
+                    tel = (textValue[0] === '+') ? textValue : ('+38' + textValue);
+                    $('#wrong-input-tel').css('display', 'none');
+                } else {
+                    $('#tel-orderer').css('border-color', 'red');
+                    $('#wrong-input-tel').css('display', '');
+                }
+            };
+            document.getElementById('addr-orderer').onblur = function () {
+                var textValue = document.getElementById('addr-orderer').value;
+                if (textValue) {
+                    $('#addr-orderer').css('border-color', 'chartreuse');
+                    addr = textValue;
+                    $('#wrong-input-addr').css('display', 'none');
+                } else {
+                    $('#addr-orderer').css('border-color', 'red');
+                    $('#wrong-input-addr').css('display', '');
+                }
+            }
+            $('#button-forvard').click(function () {
+                console.log("Trying to order...");
+                ajax_api.post('order', {cart: JSON.stringify(PizzaCart.getPizzaInCart())}, function () {
+                    console.log("Order sent");
+                    PizzaCart.clearCart();
+                });
+            });
+        }
+
+        exports.initialiseRange = initialiseRange;
+    }, {"../ajax": 1, "./order_PizzaCart": 5}], 7: [function (require, module, exports) {
+
+    }, {}], 8: [function (require, module, exports) {
         /*
          * EJS Embedded JavaScript templates
          * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -978,7 +1088,7 @@
             window.ejs = exports;
         }
 
-    }, {"../package.json": 8, "./utils": 7, "fs": 5, "path": 9}], 7: [function (require, module, exports) {
+    }, {"../package.json": 10, "./utils": 9, "fs": 7, "path": 11}], 9: [function (require, module, exports) {
         /*
          * EJS Embedded JavaScript templates
          * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1144,7 +1254,7 @@
             }
         };
 
-    }, {}], 8: [function (require, module, exports) {
+    }, {}], 10: [function (require, module, exports) {
         module.exports = {
             "_args": [
                 [
@@ -1251,7 +1361,7 @@
             "version": "2.5.7"
         }
 
-    }, {}], 9: [function (require, module, exports) {
+    }, {}], 11: [function (require, module, exports) {
         (function (process) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1481,7 +1591,7 @@
             ;
 
         }).call(this, require('_process'))
-    }, {"_process": 10}], 10: [function (require, module, exports) {
+    }, {"_process": 12}], 12: [function (require, module, exports) {
 // shim for using process in browser
         var process = module.exports = {};
 
@@ -1680,4 +1790,4 @@
         };
 
     }, {}]
-}, {}, [1]);
+}, {}, [2]);
