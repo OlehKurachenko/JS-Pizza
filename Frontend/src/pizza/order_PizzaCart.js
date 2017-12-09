@@ -23,6 +23,7 @@ function getPizzaInCart() {
 
 function clearCart() {
     Cart.length = 0;
+    window.localStorage.setItem('cartArray', JSON.stringify(Cart));
     updateCart();
 }
 
