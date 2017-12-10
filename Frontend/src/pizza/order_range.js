@@ -197,10 +197,31 @@ function initialiseRange() {
     $('#button-forvard').click(function () {
         if (tel && name && addr) {
             console.log("Trying to order...");
-            ajax_api.post('order', {cart: JSON.stringify(PizzaCart.getPizzaInCart())}, function () {
+            ajax_api.post('orderpost', {
+                name: name, tel: tel, address: addr,
+                cart: PizzaCart.getPizzaInCart()
+            }, function (data) {
                 console.log("Order sent");
-                PizzaCart.clearCart();
+                console.log("Received: " + data);
+                var data_res = JSON.parse(data);
+
+                LiqPayCheckout.init({
+                    data: data_res.data,
+                    signature: data_res.signature,
+                    embedTo: "#liqpay",
+                    mode: "popup"	//	embed	||	popup
+                }).on("liqpay.callback", function (data) {
+                    console.log(data.status);
+                    console.log(data);
+                }).on("liqpay.ready", function (data) {
+                    PizzaCart.clearCart();
+                }).on("liqpay.close", function (data) {
+                    window.location.href = '/';
+                });
+
+
             });
+
         } else {
             if (!name)
                 $('#name-orderer').css('border-color', 'red');

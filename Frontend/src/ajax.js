@@ -1,4 +1,4 @@
-var url = "http://localhost:5051/";
+var url = "http://localhost:5052/";
 
 function ajaxGet(req_url, success_function, error_function) {
     $.ajax({
@@ -17,19 +17,21 @@ function ajaxGet(req_url, success_function, error_function) {
 }
 
 function ajaxPost(req_url, req_data, success_function, error_function) {
+    var data_val = JSON.stringify(req_data);
+    console.log("Tying to send:" + data_val);
     $.ajax({
         url: url + req_url,
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(req_data),
-        success: function (data) {
-            success_function(data);
+        data: data_val,
+        success: function (res_data) {
+            success_function(res_data);
         },
         error: function () {
             if (error_function)
                 error_function();
             else
-                console.log("AJAX failed while trying to load POST url = \"" + url + req_url);
+                console.log("AJAX failed while trying to load POST url = \"" + url + req_url + 'with data' + data_val);
         }
     });
 }

@@ -22,7 +22,7 @@
     return s
 })({
     1: [function (require, module, exports) {
-        var url = "http://localhost:5051/";
+        var url = "http://localhost:5052/";
 
         function ajaxGet(req_url, success_function, error_function) {
             $.ajax({
@@ -41,19 +41,21 @@
         }
 
         function ajaxPost(req_url, req_data, success_function, error_function) {
+            var data_val = JSON.stringify(req_data);
+            console.log("Tying to send:" + data_val);
             $.ajax({
                 url: url + req_url,
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(req_data),
-                success: function (data) {
-                    success_function(data);
+                data: data_val,
+                success: function (res_data) {
+                    success_function(res_data);
                 },
                 error: function () {
                     if (error_function)
                         error_function();
                     else
-                        console.log("AJAX failed while trying to load POST url = \"" + url + req_url);
+                        console.log("AJAX failed while trying to load POST url = \"" + url + req_url + 'with data' + data_val);
         }
             });
         }
@@ -352,10 +354,31 @@
             $('#button-forvard').click(function () {
                 if (tel && name && addr) {
                     console.log("Trying to order...");
-                    ajax_api.post('order', {cart: JSON.stringify(PizzaCart.getPizzaInCart())}, function () {
+                    ajax_api.post('orderpost', {
+                        name: name, tel: tel, address: addr,
+                        cart: PizzaCart.getPizzaInCart()
+                    }, function (data) {
                         console.log("Order sent");
-                        PizzaCart.clearCart();
+                        console.log("Received: " + data);
+                        var data_res = JSON.parse(data);
+
+                        LiqPayCheckout.init({
+                            data: data_res.data,
+                            signature: data_res.signature,
+                            embedTo: "#liqpay",
+                            mode: "popup"	//	embed	||	popup
+                        }).on("liqpay.callback", function (data) {
+                            console.log(data.status);
+                            console.log(data);
+                        }).on("liqpay.ready", function (data) {
+                            PizzaCart.clearCart();
+                        }).on("liqpay.close", function (data) {
+                            window.location.href = '/';
+                        });
+
+
                     });
+
                 } else {
                     if (!name)
                         $('#name-orderer').css('border-color', 'red');
